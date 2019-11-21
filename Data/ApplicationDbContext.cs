@@ -17,5 +17,11 @@ namespace MyWalletApp.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(255));
+        }
     }
 }
