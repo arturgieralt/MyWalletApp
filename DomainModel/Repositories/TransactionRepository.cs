@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MyWalletApp.DomainModel.Repositories
 {
-    public class TransactionRepository: BaseRepository<Transaction> 
+    public class TransactionRepository: BaseRepository<Transaction>, ITransactionRepository
     {
         public TransactionRepository(ApplicationDbContext dbContext): base(dbContext)
         {

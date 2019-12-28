@@ -4,7 +4,7 @@ using MyWalletApp.DomainModel.Models;
 
 namespace MyWalletApp.DomainModel.Repositories
 {
-    public class AccountRepository: BaseRepository<Account> 
+    public class AccountRepository: BaseRepository<Account> , IAccountRepository
     {
         public AccountRepository(ApplicationDbContext dbContext): base(dbContext)
         {

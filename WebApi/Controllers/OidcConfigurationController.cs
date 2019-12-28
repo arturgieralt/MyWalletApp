@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace MyWalletApp.Controllers
+namespace MyWalletApp.WebApi.Controllers
 {
     public class OidcConfigurationController : Controller
     {
