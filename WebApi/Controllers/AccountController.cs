@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyWalletApp.Extensions;
+using MyWalletApp.WebApi.Commands.CreateAccount;
+using MyWalletApp.WebApi.DTO.Requests;
 
 namespace MyWalletApp.WebApi.Controllers
 {
@@ -21,10 +23,17 @@ namespace MyWalletApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post()
+        public async Task<IActionResult> Post([FromBody] AccountRequest request)
         {
             var userId = User.GetId<string>();
 
+            var result = await _mediator.Send(new CreateAccountCommand(){
+                Name = request.Name,
+                UserId = userId,
+                Currency = request.Currency
+            });
+
+            return CreatedAtAction();
         }
         
     }

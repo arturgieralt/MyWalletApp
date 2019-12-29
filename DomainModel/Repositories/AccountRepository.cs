@@ -18,6 +18,7 @@ namespace MyWalletApp.DomainModel.Repositories
                 .Include(a => a.Transactions)
                 .SingleOrDefaultAsync(a => a.Id == accountId && a.CreatedBy.Id == userId)
                 .ConfigureAwait(false);
+
         }
         
     }

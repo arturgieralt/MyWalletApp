@@ -7,20 +7,25 @@ namespace MyWalletApp.Extensions
     {
         public static T GetId<T>(this ClaimsPrincipal principal)
     {
+        var castToType = typeof(T);
+
         if (principal == null)
             throw new ArgumentNullException(nameof(principal));
 
         var loggedInUserId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        if (typeof(T) == typeof(string))
+        if(string.IsNullOrEmpty(loggedInUserId))
         {
-            return (T)Convert.ChangeType(loggedInUserId, typeof(T));
+            throw new Exception("No User Id");
         }
-        else if (typeof(T) == typeof(int) || typeof(T) == typeof(long))
+
+        if (castToType == typeof(string) || 
+        castToType == typeof(int) || 
+        castToType == typeof(long))
         {
-            return loggedInUserId != null ? (T)Convert.ChangeType(loggedInUserId, typeof(T)) : (T)Convert.ChangeType(0, typeof(T));
-        }
-        else
+            return (T)Convert.ChangeType(loggedInUserId, castToType);
+        } 
+        else 
         {
             throw new Exception("Invalid type provided");
         }
