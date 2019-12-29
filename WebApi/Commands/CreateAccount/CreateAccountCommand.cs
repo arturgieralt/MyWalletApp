@@ -7,6 +7,5 @@ namespace MyWalletApp.WebApi.Commands.CreateAccount
     {
         public string Name {get; set;}
         public long CurrencyId { get; set; }
-        public string UserId { get; set; }
     }
 }

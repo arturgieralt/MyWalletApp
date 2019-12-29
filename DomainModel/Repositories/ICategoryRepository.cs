@@ -6,5 +6,6 @@ namespace MyWalletApp.DomainModel.Repositories
     public interface ICategoryRepository
     {
          Task<Category> GetById(long categoryId, string userId);
+         Task<long> Save(Category category);
     }
 }

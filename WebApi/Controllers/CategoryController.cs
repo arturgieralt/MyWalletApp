@@ -3,37 +3,35 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MyWalletApp.Extensions;
-using MyWalletApp.WebApi.Commands.CreateAccount;
+using MyWalletApp.WebApi.Commands.AddCategory;
 using MyWalletApp.WebApi.DTO.Requests;
 
 namespace MyWalletApp.WebApi.Controllers
 {
-    [Route("accounts")]
+    [Route("categories")]
     [Authorize]
     [ApiController]
-    public class AccountController: Controller
+    public class CategoryController: Controller
     {
+        
         private readonly IMediator _mediator;
-        private readonly ILogger<AccountController> _logger;
+        private readonly ILogger<CategoryController> _logger;
 
-        public AccountController(IMediator mediator, ILogger<AccountController> logger) 
+        public CategoryController(IMediator mediator, ILogger<CategoryController> logger) 
         {
             _mediator = mediator;
             _logger = logger;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AccountRequest request)
+        public async Task<IActionResult> Post([FromBody] CategoryRequest request)
         {
 
-            var result = await _mediator.Send(new CreateAccountCommand(){
+            var result = await _mediator.Send(new AddCategoryCommand(){
                 Name = request.Name,
-                CurrencyId = request.CurrencyId
             });
 
             return Ok(result);
         }
-        
     }
 }
