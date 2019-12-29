@@ -9,8 +9,8 @@ using MyWalletApp.DomainModel;
 namespace MyWalletApp.DomainModel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191228182902_Models")]
-    partial class Models
+    [Migration("20191229185008_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -246,9 +246,8 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Currency")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<long>("CurrencyId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("LastModifiedById")
                         .IsRequired()
@@ -264,6 +263,8 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
+
+                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("LastModifiedById");
 
@@ -356,6 +357,7 @@ namespace MyWalletApp.DomainModel.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
@@ -367,10 +369,24 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("MyWalletApp.DomainModel.Models.Currency", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currency");
+                });
+
             modelBuilder.Entity("MyWalletApp.DomainModel.Models.Transaction", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AccountId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("CategoryId")
@@ -394,6 +410,7 @@ namespace MyWalletApp.DomainModel.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<decimal>("Total")
@@ -404,6 +421,8 @@ namespace MyWalletApp.DomainModel.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("CategoryId");
 
@@ -473,6 +492,12 @@ namespace MyWalletApp.DomainModel.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MyWalletApp.DomainModel.Models.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MyWalletApp.DomainModel.Models.ApplicationUser", "LastModifiedBy")
                         .WithMany()
                         .HasForeignKey("LastModifiedById")
@@ -497,6 +522,12 @@ namespace MyWalletApp.DomainModel.Migrations
 
             modelBuilder.Entity("MyWalletApp.DomainModel.Models.Transaction", b =>
                 {
+                    b.HasOne("MyWalletApp.DomainModel.Models.Account", "Account")
+                        .WithMany("Transactions")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MyWalletApp.DomainModel.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")

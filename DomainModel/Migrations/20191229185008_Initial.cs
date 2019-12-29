@@ -48,16 +48,15 @@ namespace MyWalletApp.DomainModel.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Currency",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Currency", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -201,12 +200,82 @@ namespace MyWalletApp.DomainModel.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreatedById = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastModifiedById = table.Column<string>(nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Category_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Category_AspNetUsers_LastModifiedById",
+                        column: x => x.LastModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Account",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreatedById = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastModifiedById = table.Column<string>(nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    CurrencyId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Account", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Account_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Account_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Account_AspNetUsers_LastModifiedById",
+                        column: x => x.LastModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transaction",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
+                    CreatedById = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastModifiedById = table.Column<string>(nullable: false),
+                    LastModifiedOn = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    AccountId = table.Column<long>(nullable: false),
                     Total = table.Column<decimal>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     TransactionType = table.Column<string>(nullable: false),
@@ -216,12 +285,45 @@ namespace MyWalletApp.DomainModel.Migrations
                 {
                     table.PrimaryKey("PK_Transaction", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Transaction_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Transaction_Category_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transaction_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transaction_AspNetUsers_LastModifiedById",
+                        column: x => x.LastModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Account_CreatedById",
+                table: "Account",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Account_CurrencyId",
+                table: "Account",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Account_LastModifiedById",
+                table: "Account",
+                column: "LastModifiedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -261,6 +363,16 @@ namespace MyWalletApp.DomainModel.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Category_CreatedById",
+                table: "Category",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Category_LastModifiedById",
+                table: "Category",
+                column: "LastModifiedById");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
                 table: "DeviceCodes",
                 column: "DeviceCode",
@@ -282,9 +394,24 @@ namespace MyWalletApp.DomainModel.Migrations
                 columns: new[] { "SubjectId", "ClientId", "Type" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Transaction_AccountId",
+                table: "Transaction",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transaction_CategoryId",
                 table: "Transaction",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transaction_CreatedById",
+                table: "Transaction",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transaction_LastModifiedById",
+                table: "Transaction",
+                column: "LastModifiedById");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -317,10 +444,16 @@ namespace MyWalletApp.DomainModel.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Account");
 
             migrationBuilder.DropTable(
                 name: "Category");
+
+            migrationBuilder.DropTable(
+                name: "Currency");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

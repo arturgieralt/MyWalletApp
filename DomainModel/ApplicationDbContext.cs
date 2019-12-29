@@ -19,6 +19,8 @@ namespace MyWalletApp.DomainModel
         public DbSet<Category> Categories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<Currency> Currencies { get; }
+
 
         public ApplicationDbContext(
             DbContextOptions options,
@@ -36,15 +38,12 @@ namespace MyWalletApp.DomainModel
             builder.Entity<Category>();
 
             var transactionTypeConventer = CreateValueConventer<TransactionType>();
-            var currencyConventer = CreateValueConventer<Currency>();
 
             builder.Entity<Transaction>()
                 .Property(t => t.TransactionType)
                 .HasConversion(transactionTypeConventer);
 
-            builder.Entity<Account>()
-                .Property(a => a.Currency)
-                .HasConversion(currencyConventer);
+
         }
 
         private ValueConverter CreateValueConventer<T> () {

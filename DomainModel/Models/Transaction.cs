@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyWalletApp.DomainModel.Models
@@ -6,18 +7,25 @@ namespace MyWalletApp.DomainModel.Models
     [Table("Transaction")]    
     public class Transaction: BaseModel
     {
+
+        [Required]
         public string Name { get; set; }  
 
-        [ForeignKey("AccountId")]
+        [Required]
+        public long AccountId {get; set; }
         public Account Account { get; set; }
 
+        [Required]
         public decimal Total { get; set; }
 
+        [Required]
         public DateTime Date { get; set; }
 
+        [Required]
         public TransactionType TransactionType { get; set; }
 
-        [ForeignKey("CategoryId")]
+        [Required]
+        public long CategoryId { get; set; }
         public Category Category {get; set;}   
     }
 }

@@ -4,9 +4,6 @@ using MediatR;
 using MyWalletApp.DomainModel.Models;
 using MyWalletApp.DomainModel.Repositories;
 using MyWalletApp.WebApi.Commands.Common;
-using MyWalletApp.WebApi.Mappers;
-using CurrencyModel =  MyWalletApp.DomainModel.Models.Currency;
-using CurrencyRequest =  MyWalletApp.WebApi.Models.Currency;
 
 namespace MyWalletApp.WebApi.Commands.CreateAccount
 {
@@ -21,9 +18,8 @@ namespace MyWalletApp.WebApi.Commands.CreateAccount
 
         public async Task<CommandResult> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
-            var mappedCurrency = EnumMapper.Map<CurrencyRequest, CurrencyModel>(request.Currency);
 
-            var account = new Account(request.Name, mappedCurrency);
+            var account = new Account(request.Name, request.CurrencyId);
             var acountId =  await _accountRepository.Save(account);
 
             return new CommandResult(){Status = CommandResultStatus.Success, Message = "Created"};

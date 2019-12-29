@@ -31,7 +31,7 @@ namespace MyWalletApp.WebApi.Controllers
             var result = await _mediator.Send(new CreateAccountCommand(){
                 Name = request.Name,
                 UserId = userId,
-                Currency = request.Currency
+                CurrencyId = request.CurrencyId
             });
 
             return Ok(result);

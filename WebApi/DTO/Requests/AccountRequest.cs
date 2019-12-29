@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using MyWalletApp.WebApi.Models;
 using Newtonsoft.Json;
 
 namespace MyWalletApp.WebApi.DTO.Requests
@@ -11,7 +10,7 @@ namespace MyWalletApp.WebApi.DTO.Requests
         public string Name {get; set;}
 
         [Required]
-        [JsonProperty("currency")]
-        public Currency Currency { get; set; }
+        [JsonProperty("currencyId")]
+        public long CurrencyId { get; set; }
     }
 }
