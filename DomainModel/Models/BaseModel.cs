@@ -10,12 +10,14 @@ namespace MyWalletApp.DomainModel.Models
         public long Id { get; protected set; }
 
         [Required]
+        public string CreatedById { get; set; }
         public ApplicationUser CreatedBy { get; set; }
 
         [Required]
         public DateTime CreatedOn { get; set; }
 
         [Required]
+        public string LastModifiedById { get; set; }
         public ApplicationUser LastModifiedBy { get; set; }
 
         [Required]

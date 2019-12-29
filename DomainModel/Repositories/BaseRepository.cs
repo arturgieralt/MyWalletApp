@@ -25,11 +25,11 @@ namespace MyWalletApp.DomainModel.Repositories
 
         public void SetAuditData(T entity, string userId) {
              if(entity.Id == default(long)) {
-                entity.CreatedBy.Id = userId;
+                entity.CreatedById = userId;
                 entity.CreatedOn = _dateTimeProvider.GetCurrentUtcTime;
             }
 
-            entity.LastModifiedBy.Id = userId;
+            entity.LastModifiedById = userId;
             entity.LastModifiedOn = _dateTimeProvider.GetCurrentUtcTime;
         }
 
@@ -43,14 +43,13 @@ namespace MyWalletApp.DomainModel.Repositories
 
         public virtual async Task<long> Save(T entity)
         {
-            var user = _userContextProvider.GetUser;
-            SetAuditData(entity, user.GetId<string>());
+            var userId = _userContextProvider.GetUser.GetId<string>();
+            SetAuditData(entity, userId);
             
             if(entity.Id == default(long)) {
-                var entityEntry = await _dbContext
+                await _dbContext
                     .AddAsync(entity)
                     .ConfigureAwait(false);
-                 return entityEntry.Entity.Id;
             }
 
             await _dbContext.SaveChangesAsync().ConfigureAwait(false);
