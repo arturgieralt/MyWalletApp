@@ -1,12 +1,16 @@
 using MyWalletApp.DomainModel.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MyWalletApp.Services.Providers;
 
 namespace MyWalletApp.DomainModel.Repositories
 {
     public class CategoryRepository: BaseRepository<Category>, ICategoryRepository
     {
-        public CategoryRepository(ApplicationDbContext dbContext): base(dbContext)
+        public CategoryRepository(
+            ApplicationDbContext dbContext, 
+            IDateTimeProvider dateTimeProvider,
+            IUserContextProvider userContextProvider): base(dbContext, dateTimeProvider, userContextProvider)
         {
 
         }

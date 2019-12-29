@@ -24,7 +24,9 @@ namespace MyWalletApp.WebApi.Commands.CreateAccount
             var mappedCurrency = EnumMapper.Map<CurrencyRequest, CurrencyModel>(request.Currency);
 
             var account = new Account(request.Name, mappedCurrency);
-            return await _accountRepository.Save(account);
+            var acountId =  await _accountRepository.Save(account);
+
+            return new CommandResult(){Status = CommandResultStatus.Success, Message = "Created"};
         }
 
 

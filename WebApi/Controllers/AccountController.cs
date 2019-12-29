@@ -23,6 +23,7 @@ namespace MyWalletApp.WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("account")]
         public async Task<IActionResult> Post([FromBody] AccountRequest request)
         {
             var userId = User.GetId<string>();
@@ -33,7 +34,7 @@ namespace MyWalletApp.WebApi.Controllers
                 Currency = request.Currency
             });
 
-            return CreatedAtAction();
+            return Ok(result);
         }
         
     }

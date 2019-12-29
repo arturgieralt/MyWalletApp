@@ -1,12 +1,16 @@
 using MyWalletApp.DomainModel.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MyWalletApp.Services.Providers;
 
 namespace MyWalletApp.DomainModel.Repositories
 {
     public class TransactionRepository: BaseRepository<Transaction>, ITransactionRepository
     {
-        public TransactionRepository(ApplicationDbContext dbContext): base(dbContext)
+        public TransactionRepository(
+            ApplicationDbContext dbContext, 
+            IDateTimeProvider dateTimeProvider,
+            IUserContextProvider userContextProvider): base(dbContext, dateTimeProvider, userContextProvider)
         {
 
         }
