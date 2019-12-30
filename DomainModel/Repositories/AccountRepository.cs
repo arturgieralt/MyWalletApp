@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyWalletApp.DomainModel.Models;
+using MyWalletApp.Extensions;
 using MyWalletApp.Services.Providers;
 
 namespace MyWalletApp.DomainModel.Repositories
@@ -15,8 +17,10 @@ namespace MyWalletApp.DomainModel.Repositories
 
         }
 
-        public async override Task<Account> GetById(long accountId, string userId)
+        public async override Task<Account> GetById(long accountId)
         {
+            var userId = _userContextProvider.GetUser.GetId<string>();
+            
             return await _dbContext
                 .Accounts
                 .Include(a => a.Transactions)
@@ -24,6 +28,17 @@ namespace MyWalletApp.DomainModel.Repositories
                 .ConfigureAwait(false);
 
         }
+
+        public virtual async Task<bool> DoesExistForUser(long entityId)
+        {
+            var userId = _userContextProvider.GetUser.GetId<string>();
+
+            return await _dbContext
+                .Accounts
+                .AnyAsync(a => a.Id == entityId && a.CreatedById == userId)
+                .ConfigureAwait(false);
+        }
+
         
     }
 }

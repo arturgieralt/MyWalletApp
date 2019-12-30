@@ -2,6 +2,7 @@ using MyWalletApp.DomainModel.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyWalletApp.Services.Providers;
+using MyWalletApp.Extensions;
 
 namespace MyWalletApp.DomainModel.Repositories
 {
@@ -15,8 +16,10 @@ namespace MyWalletApp.DomainModel.Repositories
 
         }
 
-        public async override Task<Category> GetById(long categoryId, string userId)
+        public async override Task<Category> GetById(long categoryId)
         {
+            var userId = _userContextProvider.GetUser.GetId<string>();
+            
             return await _dbContext
                 .Categories
                 .SingleOrDefaultAsync(c => c.Id == categoryId && c.CreatedBy.Id == userId)

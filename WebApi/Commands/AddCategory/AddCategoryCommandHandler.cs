@@ -8,7 +8,7 @@ using MyWalletApp.WebApi.Commands.Common;
 namespace MyWalletApp.WebApi.Commands.AddCategory
 {
 
-        public class AddCategoryCommandHandler: IRequestHandler<AddCategoryCommand, CommandResult>
+    public class AddCategoryCommandHandler: IRequestHandler<AddCategoryCommand, CommandResult>
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -27,7 +27,5 @@ namespace MyWalletApp.WebApi.Commands.AddCategory
 
             return new CommandResult(){Status = CommandResultStatus.Success, Message = "Created"};
         }
-
-
     }
 }

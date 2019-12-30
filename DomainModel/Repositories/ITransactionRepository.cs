@@ -5,6 +5,7 @@ namespace MyWalletApp.DomainModel.Repositories
 {
     public interface ITransactionRepository
     {
-         Task<Transaction> GetById(long transactionId, string userId);
+        Task<Transaction> GetById(long transactionId);
+        Task<long> Save(Transaction transaction);
     }
 }

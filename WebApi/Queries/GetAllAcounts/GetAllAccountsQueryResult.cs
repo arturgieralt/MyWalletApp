@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MyWalletApp.DomainModel.Models;
+using MyWalletApp.WebApi.Models;
 using MyWalletApp.WebApi.Queries.Common;
 
 namespace MyWalletApp.WebApi.Queries.GetAllAcounts
@@ -8,6 +8,6 @@ namespace MyWalletApp.WebApi.Queries.GetAllAcounts
     {
         public QueryResultStatus Status {get; set;}
 
-        public List<Account> Accounts { get; set;}
+        public List<AccountSummary> Accounts { get; set;}
     }
 }

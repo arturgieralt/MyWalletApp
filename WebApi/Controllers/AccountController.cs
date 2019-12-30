@@ -3,11 +3,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MyWalletApp.DomainModel.Models;
-using MyWalletApp.Extensions;
 using MyWalletApp.WebApi.Commands.CreateAccount;
 using MyWalletApp.WebApi.DTO.Requests;
 using MyWalletApp.WebApi.DTO.Results;
+using MyWalletApp.WebApi.Models;
 using MyWalletApp.WebApi.Queries.GetAllAcounts;
 
 namespace MyWalletApp.WebApi.Controllers
@@ -42,7 +41,7 @@ namespace MyWalletApp.WebApi.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(new GetAllAccountsQuery());
-            var response = new ListResult<Account>(){
+            var response = new ListResult<AccountSummary>(){
                 Items = result.Accounts
             };
             return Ok(response);

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MyWalletApp.DomainModel;
 using MyWalletApp.Extensions;
 using MyWalletApp.Services.Providers;
+using MyWalletApp.WebApi.Models;
 using MyWalletApp.WebApi.Queries.Common;
 
 namespace MyWalletApp.WebApi.Queries.GetAllAcounts
@@ -28,7 +29,15 @@ namespace MyWalletApp.WebApi.Queries.GetAllAcounts
             
             var accounts = await _applicationDbContext
                 .Accounts
+                .Include(a => a.Currency)
                 .Where(a => a.CreatedById == userId)
+                .Select( a => new AccountSummary{
+                    Id = a.Id,
+                    Balance = a.Transactions.Sum(t => t.Total),
+                    TransactionCount = a.Transactions.Count(),
+                    Currency = a.Currency,
+                    CreatedOn = a.CreatedOn
+                })
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
 

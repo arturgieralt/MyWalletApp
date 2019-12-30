@@ -8,9 +8,9 @@ namespace MyWalletApp.DomainModel.Repositories
     public abstract class BaseRepository<T> where T: BaseModel
     {
         protected ApplicationDbContext _dbContext  {get; }
-        private IDateTimeProvider _dateTimeProvider {get; }
+        protected IDateTimeProvider _dateTimeProvider {get; }
 
-        private IUserContextProvider _userContextProvider {get;}
+        protected IUserContextProvider _userContextProvider {get;}
 
         protected BaseRepository(
             ApplicationDbContext dbContext,
@@ -56,6 +56,6 @@ namespace MyWalletApp.DomainModel.Repositories
             return entity.Id;
         }
 
-        public abstract Task<T> GetById(long entityId, string userId);
+        public abstract Task<T> GetById(long entityId);
     }
 }

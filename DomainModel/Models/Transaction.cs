@@ -24,8 +24,11 @@ namespace MyWalletApp.DomainModel.Models
         [Required]
         public TransactionType TransactionType { get; set; }
 
-        [Required]
         public long CategoryId { get; set; }
-        public Category Category {get; set;}   
+        public Category Category {get; set;} 
+
+        [Required]
+        public long CurrencyId { get; set; }
+        public Category Currency {get; set;}   
     }
 }
