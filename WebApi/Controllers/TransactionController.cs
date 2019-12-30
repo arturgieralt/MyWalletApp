@@ -32,7 +32,6 @@ namespace MyWalletApp.WebApi.Controllers
                 AccountId = request.AccountId,
                 Total = request.Total,
                 TransactionType = request.TransactionType,
-                CurrencyId = request.CurrencyId,
                 CategoryId = request.CategoryId
             });
 

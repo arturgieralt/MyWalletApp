@@ -22,11 +22,8 @@ namespace MyWalletApp.WebApi.DTO.Requests
         [JsonProperty("transactionType")]
         public TransactionType TransactionType { get; set; }
 
-        [JsonProperty("currencyId")]
-        public long CurrencyId { get; set; }
-
         [JsonProperty("categoryId")]
-        public long CategoryId { get; set; }
+        public long? CategoryId { get; set; }
 
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using MyWalletApp.DomainModel.Models;
 using MyWalletApp.DomainModel.Repositories;
 using MyWalletApp.WebApi.Commands.Common;
@@ -41,11 +42,11 @@ namespace MyWalletApp.WebApi.Commands.AddTransaction
             
             var transactionType = EnumMapper.Map<TransactionTypeApiModel, TransactionType>(request.TransactionType);
 
-            var currencyId = request.CurrencyId;
+            var account = await _accountRepository.GetById(request.AccountId);
+            var currencyId = account.CurrencyId;
 
-            if(currencyId == default(long)){
-                var account = await _accountRepository.GetById(request.AccountId);
-                currencyId = account.CurrencyId;
+            if(request.CategoryId == default(long)) {
+                request.CategoryId = null;
             }
             
             var transaction = new Transaction(){
@@ -53,21 +54,28 @@ namespace MyWalletApp.WebApi.Commands.AddTransaction
                 AccountId = request.AccountId,
                 Total = GetCorrectTotal(transactionType, request.Total),
                 TransactionType = transactionType,
-                CurrencyId = currencyId,
+                CurrencyId = (long)currencyId,
                 CategoryId = request.CategoryId
             };
 
-            var transactionId =  await _transactionRepository.Save(transaction);
+            try {
+                var transactionId =  await _transactionRepository.Save(transaction);
 
-            return new CommandResult(){Status = CommandResultStatus.Success, Message = "Created"};
+                return new CommandResult(){Status = CommandResultStatus.Success, Message = "Created"};
+            }
+            catch (DbUpdateException e)
+            {
+                return new CommandResult(){Status = CommandResultStatus.Error, Message = e.Message };
+            }
+            
         }
 
         private decimal GetCorrectTotal(TransactionType transactionType, decimal total)
         {
             var totalAbsoluteValue = Math.Abs(total);
             return transactionType == TransactionType.Expense 
-                ? -total
-                : total;
+                ? -totalAbsoluteValue
+                : totalAbsoluteValue;
         }
     }
 }

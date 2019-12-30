@@ -15,8 +15,6 @@ namespace MyWalletApp.WebApi.Commands.AddTransaction
 
         public TransactionType TransactionType { get; set; }
 
-        public long CurrencyId { get; set; }
-
-        public long CategoryId { get; set; }
+        public long? CategoryId { get; set; }
     }
 }
