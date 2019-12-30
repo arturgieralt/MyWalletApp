@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyWalletApp.WebApi.Commands.AddTransaction;
 using MyWalletApp.WebApi.DTO.Requests;
+using MyWalletApp.WebApi.DTO.Results;
+using MyWalletApp.WebApi.Queries.GetAllTransactions;
+using Transaction = MyWalletApp.WebApi.Models.Transaction;
 
 namespace MyWalletApp.WebApi.Controllers
 {
@@ -36,6 +39,20 @@ namespace MyWalletApp.WebApi.Controllers
             });
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] GetTransactionsRequest request)
+        {
+            var result = await _mediator.Send(new GetAllTransactionsQuery()
+            {
+                AccountId = request.AccountId
+            });
+            var response = new ListResult<Transaction>(){
+                Items = result.Transactions
+            };
+            return Ok(response);
+
         }
     }
 }

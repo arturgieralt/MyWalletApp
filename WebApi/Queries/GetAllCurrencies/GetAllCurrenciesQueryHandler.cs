@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -21,6 +22,7 @@ namespace MyWalletApp.WebApi.Queries.GetAllCurrencies
 
             var currencies = await _applicationDbContext
                 .Currencies
+                .OrderBy(c => c.ShortName)
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
 

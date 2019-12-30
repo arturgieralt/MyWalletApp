@@ -1,3 +1,4 @@
+using System;
 using MediatR;
 using MyWalletApp.WebApi.Commands.Common;
 using MyWalletApp.WebApi.Models;
@@ -10,6 +11,8 @@ namespace MyWalletApp.WebApi.Commands.AddTransaction
         public string Name {get; set; }
 
         public long AccountId { get; set; }
+
+        public DateTime Date {get; set;}
 
         public decimal Total { get; set; }
 

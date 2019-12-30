@@ -51,6 +51,7 @@ namespace MyWalletApp.WebApi.Commands.AddTransaction
             
             var transaction = new Transaction(){
                 Name = request.Name,
+                Date = request.Date,
                 AccountId = request.AccountId,
                 Total = GetCorrectTotal(transactionType, request.Total),
                 TransactionType = transactionType,

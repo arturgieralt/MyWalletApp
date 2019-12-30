@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using MyWalletApp.WebApi.Models;
 using Newtonsoft.Json;
@@ -13,6 +14,10 @@ namespace MyWalletApp.WebApi.DTO.Requests
         [Required]
         [JsonProperty("accountId")]
         public long AccountId { get; set; }
+
+        [Required]
+        [JsonProperty("date")]
+        public DateTime Date { get; set; }
 
         [Required]
         [JsonProperty("total")]

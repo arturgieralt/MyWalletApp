@@ -33,11 +33,13 @@ namespace MyWalletApp.WebApi.Queries.GetAllAcounts
                 .Where(a => a.CreatedById == userId)
                 .Select( a => new AccountSummary{
                     Id = a.Id,
+                    Name = a.Name,
                     Balance = a.Transactions.Sum(t => t.Total),
                     TransactionCount = a.Transactions.Count(),
                     Currency = a.Currency,
                     CreatedOn = a.CreatedOn
                 })
+                .OrderBy(a => a.Name)
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
 

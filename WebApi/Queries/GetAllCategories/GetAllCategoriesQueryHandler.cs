@@ -10,7 +10,7 @@ using MyWalletApp.WebApi.Queries.Common;
 
 namespace MyWalletApp.WebApi.Queries.GetAllCategories
 {
-        public class GetAllCategoriesQueryHandler: IRequestHandler<GetAllCategoriesQuery, GetAllCategoriesQueryResult>
+    public class GetAllCategoriesQueryHandler: IRequestHandler<GetAllCategoriesQuery, GetAllCategoriesQueryResult>
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IUserContextProvider _userContextProvider;
@@ -28,6 +28,7 @@ namespace MyWalletApp.WebApi.Queries.GetAllCategories
             var categories = await _applicationDbContext
                 .Categories
                 .Where(c => c.CreatedById == userId)
+                .OrderBy(c => c.Name)
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
 
