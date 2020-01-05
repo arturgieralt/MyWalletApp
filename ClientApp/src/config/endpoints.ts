@@ -1,6 +1,6 @@
 export default {
-    account: 'accounts',
-    category: 'categories',
-    currency: 'currencies',
-    transaction: 'transactions'
+    account: 'api/accounts',
+    category: 'api/categories',
+    currency: 'api/currencies',
+    transaction: 'api/transactions'
 }

@@ -11,12 +11,18 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CategoryListComponent } from './category-list/category-list.component';
+import {TableModule} from 'primeng/table';
+import {VirtualScrollerModule} from 'primeng/virtualscroller';
+import { AccountSummaryListComponent } from './account-summary-list/account-summary-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent
+    HomeComponent,
+    CategoryListComponent,
+    AccountSummaryListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -25,8 +31,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' }
-    ])
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'categories', component: CategoryListComponent, pathMatch: 'full' },
+      { path: 'accounts', component: AccountSummaryListComponent, pathMatch: 'full' }
+    ]),
+    TableModule, 
+    VirtualScrollerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }

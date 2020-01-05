@@ -1,0 +1,14 @@
+<p-table [value]="categories">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-category let-i="rowIndex + 1">
+        <tr>
+            <td>{{i}}</td>
+            <td>{{category.name}}</td>
+        </tr>
+    </ng-template>
+</p-table>
