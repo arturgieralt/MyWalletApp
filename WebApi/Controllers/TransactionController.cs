@@ -11,7 +11,7 @@ using Transaction = MyWalletApp.WebApi.Models.Transaction;
 
 namespace MyWalletApp.WebApi.Controllers
 {
-    [Route("transactions")]
+    [Route("api/transactions")]
     [Authorize]
     [ApiController]
     public class TransactionController: Controller

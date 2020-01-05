@@ -10,7 +10,7 @@ using MyWalletApp.WebApi.Queries.GetAllCurrencies;
 
 namespace MyWalletApp.WebApi.Controllers
 {
-    [Route("currencies")]
+    [Route("api/currencies")]
     [Authorize]
     [ApiController]
     public class CurrencyController: Controller

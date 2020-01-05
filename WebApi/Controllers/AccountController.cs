@@ -11,7 +11,7 @@ using MyWalletApp.WebApi.Queries.GetAllAcounts;
 
 namespace MyWalletApp.WebApi.Controllers
 {
-    [Route("accounts")]
+    [Route("api/accounts")]
     [Authorize]
     [ApiController]
     public class AccountController: Controller

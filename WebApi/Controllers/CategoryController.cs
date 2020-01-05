@@ -11,7 +11,7 @@ using MyWalletApp.WebApi.Queries.GetAllCategories;
 
 namespace MyWalletApp.WebApi.Controllers
 {
-    [Route("categories")]
+    [Route("api/categories")]
     [Authorize]
     [ApiController]
     public class CategoryController: Controller

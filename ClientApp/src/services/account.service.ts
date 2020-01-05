@@ -2,7 +2,7 @@ import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AccountSummary } from "src/types/AccountSummary";
 import { ApiListResponse } from "src/types/ApiListResponse";
-import endpoints from "src/app/config/endpoints";
+import endpoints from "src/config/endpoints";
 import { Observable } from "rxjs/internal/Observable";
 import { AddAccountRequest } from "src/types/AddAccountRequest";
 import ApiResponse from "src/types/ApiResponse";
