@@ -1,3 +1,7 @@
+<a mat-raised-button [routerLink]="['/categories/add']">
+    Add new
+</a>
+
 <mat-list *ngIf="categories?.length > 0">
     <mat-list-item *ngFor="let category of categories"> {{category.name}} </mat-list-item>
 </mat-list>
