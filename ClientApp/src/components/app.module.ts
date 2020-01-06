@@ -25,6 +25,7 @@ import { AccountSummaryListComponent } from './account-summary-list/account-summ
 import {MatInputModule} from '@angular/material/input';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { AccountFormComponent } from './account-form/account-form.component';
+import { TransactionListComponent } from './transaction-list/transaction-list.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { AccountFormComponent } from './account-form/account-form.component';
     CategoryListComponent,
     AccountSummaryListComponent,
     CategoryFormComponent,
-    AccountFormComponent
+    AccountFormComponent,
+    TransactionListComponent
   ],
   imports: [
     MatListModule,
@@ -55,7 +57,9 @@ import { AccountFormComponent } from './account-form/account-form.component';
       { path: 'categories', component: CategoryListComponent, pathMatch: 'full' },
       { path: 'categories/add', component: CategoryFormComponent, pathMatch: 'full' },
       { path: 'accounts', component: AccountSummaryListComponent, pathMatch: 'full' },
-      { path: 'accounts/add', component: AccountFormComponent, pathMatch: 'full' }
+      { path: 'accounts/add', component: AccountFormComponent, pathMatch: 'full' },
+      { path: 'accounts/:id/transactions', component: TransactionListComponent, pathMatch: 'full' },
+      { path: 'transactions', component: TransactionListComponent, pathMatch: 'full' },
     ])
   ],
   providers: [
