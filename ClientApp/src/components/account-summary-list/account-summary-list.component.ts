@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Component, OnInit } from "@angular/core";
 import { AccountService } from "src/services/account.service";
 import { AccountSummary } from "src/types/AccountSummary";
 
@@ -8,21 +7,15 @@ import { AccountSummary } from "src/types/AccountSummary";
     styleUrls: ['./account-summary-list.component.css'],
     templateUrl: './account-summary-list.component.html'
 })
-export class AccountSummaryListComponent implements OnInit, OnDestroy {
+export class AccountSummaryListComponent implements OnInit {
     private accounts: AccountSummary[] = [];
-    private getAccountsSubscription: Subscription;
     private columns: string[] = ['name', 'balance', 'transactionCount', 'currency', 'createdOn'];
 
     constructor(private accountService: AccountService) {}
 
     ngOnInit() {
-        var observer = this.accountService.getAll();
-        this.getAccountsSubscription = observer.subscribe(r => {
+        this.accountService.getAll().subscribe(r => {
             this.accounts = [...r.items];
         })
-    }
-
-    ngOnDestroy() {
-        this.getAccountsSubscription.unsubscribe();
     }
 }

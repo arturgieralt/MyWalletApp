@@ -18,7 +18,10 @@ export class CategoryFormComponent {
         name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
     })
 
-    constructor(private categoryService: CategoryService, private notificationService: MatSnackBar){}
+    constructor(
+        private categoryService: CategoryService, 
+        private notificationService: MatSnackBar)
+        {}
 
     onSubmit() {
         if(this.categoryForm.valid) {

@@ -1,7 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
-import { AccountService } from "src/services/account.service";
-import { AccountSummary } from "src/types/AccountSummary";
+import { Component, OnInit } from "@angular/core";
 import Transaction from "src/types/Transaction";
 import { TransactionService } from "src/services/transaction.service";
 import { ActivatedRoute, ParamMap } from "@angular/router";
@@ -12,9 +9,8 @@ import { switchMap } from "rxjs/operators";
     styleUrls: ['./transaction-list.component.css'],
     templateUrl: './transaction-list.component.html'
 })
-export class TransactionListComponent implements OnInit, OnDestroy {
+export class TransactionListComponent implements OnInit {
     private transactions: Transaction[] = [];
-    private getTransactionSubscription: Subscription;
     private columns: string[] = ['name', 'total', 'category', 'date', 'transactionType'];
 
     constructor(
@@ -22,17 +18,12 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         private routeService: ActivatedRoute) {}
 
     ngOnInit() {
-        const transactions$ = this.getTransactionStream();
-        this.getTransactionSubscription = transactions$.subscribe(r => {
+        this.getTransactions().subscribe(r => {
             this.transactions = [...r.items];
         })
     }
 
-    ngOnDestroy() {
-        this.getTransactionSubscription.unsubscribe();
-    }
-
-    getTransactionStream() {
+    getTransactions() {
         return this.routeService.paramMap.pipe(
             switchMap((params: ParamMap) => {
                 const accountId = params.get('id');

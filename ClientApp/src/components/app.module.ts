@@ -9,7 +9,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 import { AppComponent } from './app.component';
@@ -26,6 +26,8 @@ import {MatInputModule} from '@angular/material/input';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { AccountFormComponent } from './account-form/account-form.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
+import { TransactionFormComponent } from './transaction-form/transaction-form.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -37,7 +39,8 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
     AccountSummaryListComponent,
     CategoryFormComponent,
     AccountFormComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    TransactionFormComponent
   ],
   imports: [
     MatListModule,
@@ -47,6 +50,8 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
     MatToolbarModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     ReactiveFormsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
@@ -60,6 +65,7 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
       { path: 'accounts/add', component: AccountFormComponent, pathMatch: 'full' },
       { path: 'accounts/:id/transactions', component: TransactionListComponent, pathMatch: 'full' },
       { path: 'transactions', component: TransactionListComponent, pathMatch: 'full' },
+      { path: 'transactions/add', component: TransactionFormComponent, pathMatch: 'full' },
     ])
   ],
   providers: [

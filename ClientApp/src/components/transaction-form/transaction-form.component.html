@@ -1,0 +1,35 @@
+<ng-container *ngIf="accounts?.length > 0">
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" #formRef="ngForm">
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Transaction name" formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <input matInput type="number" step="0.01" placeholder="Total" formControlName="total">
+        </mat-form-field>
+    
+        <mat-form-field class="full-width">
+            <mat-label>Select an account</mat-label>
+            <mat-select formControlName="account">
+              <mat-option *ngFor="let account of accounts" [value]="account.id">{{account.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Select a category</mat-label>
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [matDatepicker]="myDatepicker" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker></mat-datepicker>
+        </mat-form-field>
+    
+        <button mat-button type="submit" [disabled]="!transactionForm.valid">
+            Add new
+        </button>
+    </form>
+</ng-container>
