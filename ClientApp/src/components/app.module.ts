@@ -8,6 +8,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSelectModule} from '@angular/material/select';
+
 
 
 import { AppComponent } from './app.component';
@@ -22,6 +24,7 @@ import { CategoryListComponent } from './category-list/category-list.component';
 import { AccountSummaryListComponent } from './account-summary-list/account-summary-list.component';
 import {MatInputModule} from '@angular/material/input';
 import { CategoryFormComponent } from './category-form/category-form.component';
+import { AccountFormComponent } from './account-form/account-form.component';
 
 
 @NgModule({
@@ -31,7 +34,8 @@ import { CategoryFormComponent } from './category-form/category-form.component';
     HomeComponent,
     CategoryListComponent,
     AccountSummaryListComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
+    AccountFormComponent
   ],
   imports: [
     MatListModule,
@@ -39,6 +43,7 @@ import { CategoryFormComponent } from './category-form/category-form.component';
     MatButtonModule,
     MatInputModule,
     MatToolbarModule,
+    MatSelectModule,
     MatSnackBarModule,
     ReactiveFormsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -49,7 +54,8 @@ import { CategoryFormComponent } from './category-form/category-form.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'categories', component: CategoryListComponent, pathMatch: 'full' },
       { path: 'categories/add', component: CategoryFormComponent, pathMatch: 'full' },
-      { path: 'accounts', component: AccountSummaryListComponent, pathMatch: 'full' }
+      { path: 'accounts', component: AccountSummaryListComponent, pathMatch: 'full' },
+      { path: 'accounts/add', component: AccountFormComponent, pathMatch: 'full' }
     ])
   ],
   providers: [

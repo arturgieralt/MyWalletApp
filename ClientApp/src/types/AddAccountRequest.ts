@@ -1,4 +1,6 @@
-export interface AddAccountRequest {
-    name: string;
-    currencyId: number;
+export class AddAccountRequest {
+    constructor(
+        public name: string, 
+        public currencyId: number
+    ) {}
 }
