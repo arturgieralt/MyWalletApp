@@ -11,6 +11,11 @@
             Categories
           </a>
         </mat-list-item>
+        <mat-list-item [routerLinkActive]="['link-active']">
+          <a mat-raised-button [routerLink]="['/transactions']">
+            Transactions
+          </a>
+        </mat-list-item>
   </mat-list>
   <app-login-menu></app-login-menu>        
 </mat-toolbar>

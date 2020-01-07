@@ -10,6 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 import { AppComponent } from './app.component';
@@ -52,6 +53,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatRadioModule,
     ReactiveFormsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
@@ -66,6 +68,7 @@ import { MatNativeDateModule } from '@angular/material/core';
       { path: 'accounts/:id/transactions', component: TransactionListComponent, pathMatch: 'full' },
       { path: 'transactions', component: TransactionListComponent, pathMatch: 'full' },
       { path: 'transactions/add', component: TransactionFormComponent, pathMatch: 'full' },
+      { path: 'accounts/:id/transactions/add', component: TransactionFormComponent, pathMatch: 'full' }
     ])
   ],
   providers: [

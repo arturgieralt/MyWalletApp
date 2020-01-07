@@ -4,11 +4,16 @@
             <input matInput placeholder="Transaction name" formControlName="name">
         </mat-form-field>
 
+        <mat-radio-group aria-label="Select a transaction type" formControlName="type">
+            <mat-radio-button value="0" [checked]="transactionForm.value.type === 0">Expense</mat-radio-button>
+            <mat-radio-button value="1" [checked]="transactionForm.value.type === 1">Income</mat-radio-button>
+        </mat-radio-group>
+
         <mat-form-field class="full-width">
             <input matInput type="number" step="0.01" placeholder="Total" formControlName="total">
         </mat-form-field>
     
-        <mat-form-field class="full-width">
+        <mat-form-field class="full-width" *ngIf="!accountId">
             <mat-label>Select an account</mat-label>
             <mat-select formControlName="account">
               <mat-option *ngFor="let account of accounts" [value]="account.id">{{account.name}}</mat-option>

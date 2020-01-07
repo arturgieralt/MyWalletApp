@@ -4,6 +4,8 @@ import { HttpClient } from "@angular/common/http";
 import endpoints from "src/config/endpoints";
 import { Observable } from "rxjs/internal/Observable";
 import Transaction from "src/types/Transaction";
+import AddTransactionRequest from "src/types/AddTransactionRequest";
+import ApiResponse from "src/types/ApiResponse";
 
 
 @Injectable({
@@ -19,5 +21,9 @@ export class TransactionService {
             url = url +  `?AccountId=${accountId}`
         }
        return this.http.get<ApiListResponse<Transaction>>(url);
+    }
+
+    add(transaction: AddTransactionRequest): Observable<ApiResponse> {
+        return this.http.post<ApiResponse>(this.baseUrl + endpoints.transaction, transaction);
     }
 }

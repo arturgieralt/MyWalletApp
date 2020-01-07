@@ -8,6 +8,9 @@ import Category from "src/types/Category";
 import { CategoryService } from "src/services/category.services";
 import { TransactionService } from "src/services/transaction.service";
 import AddTransactionRequest from "src/types/AddTransactionRequest";
+import { ActivatedRoute, ParamMap } from "@angular/router";
+import { switchMap } from "rxjs/operators";
+import TransactionType, { getTransactionTypes, ITransactionType } from "src/types/TransactionType";
 
 @Component({
     selector: 'transaction-form',
@@ -20,25 +23,41 @@ export class TransactionFormComponent implements OnInit {
 
     private accounts: AccountSummary[];
     private categories: Category[];
+    private accountId: string;
 
     private transactionForm = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
         category: new FormControl(null, [Validators.required, Validators.min(1)]),
         account: new FormControl(null, [Validators.required, Validators.min(1)]),
-        date: new FormControl(Date.now(), [Validators.required]),
-        total: new FormControl(0, [Validators.required])
+        date: new FormControl(new Date(), [Validators.required]),
+        total: new FormControl(0, [Validators.required]),
+        type: new FormControl(0, [Validators.required])
     })
 
     constructor(
         private accountService: AccountService, 
         private categoryService: CategoryService, 
         private notificationService: MatSnackBar,
+        private routeService: ActivatedRoute,
         private transactionService: TransactionService
         ){}
 
     ngOnInit() {
+        this.getAccountId();
         this.getCategories();
         this.getAccounts();
+    }
+
+    getAccountId() {
+        this.routeService.paramMap
+            .pipe(
+                switchMap((params: ParamMap) => params.get('id'))
+            ).subscribe(id => {
+                this.accountId = id;
+                this.transactionForm.patchValue({
+                    account: this.accountId
+                });
+            });
     }
 
     getCategories() {
@@ -55,8 +74,27 @@ export class TransactionFormComponent implements OnInit {
 
     onSubmit() {
         if(this.transactionForm.valid) {
-            console.log('Adding')
-            console.log(this.transactionForm)
+            const {
+                name,
+                category,
+                date,
+                total,
+                type,
+                account
+            } = this.transactionForm.value;
+
+            const transactionRequest = new AddTransactionRequest(
+                name,
+                Number(account),
+                date,
+                Number(total),
+                Number(type),
+                !isNaN(category) && Number(category)
+            );
+
+            this.transactionService
+                .add(transactionRequest)
+                .subscribe(this.afterSubmitAction);
         }
     }
 
