@@ -10,7 +10,6 @@ import { TransactionService } from "src/services/transaction.service";
 import AddTransactionRequest from "src/types/AddTransactionRequest";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
-import TransactionType, { getTransactionTypes, ITransactionType } from "src/types/TransactionType";
 
 @Component({
     selector: 'transaction-form',

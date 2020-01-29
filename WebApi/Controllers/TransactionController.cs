@@ -32,6 +32,7 @@ namespace MyWalletApp.WebApi.Controllers
 
             var result = await _mediator.Send(new AddTransactionCommand(){
                 Name = request.Name,
+                Date = request.Date,
                 AccountId = request.AccountId,
                 Total = request.Total,
                 TransactionType = request.TransactionType,

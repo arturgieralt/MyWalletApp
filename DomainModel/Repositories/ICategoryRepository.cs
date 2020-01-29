@@ -7,5 +7,6 @@ namespace MyWalletApp.DomainModel.Repositories
     {
          Task<Category> GetById(long categoryId);
          Task<long> Save(Category category);
+         Task Delete(Category category);
     }
 }

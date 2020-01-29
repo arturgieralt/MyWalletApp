@@ -35,7 +35,6 @@ namespace MyWalletApp.DomainModel
            
             base.OnModelCreating(builder);
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(255));
-            builder.Entity<Category>();
 
             var transactionTypeConventer = CreateValueConventer<TransactionType>();
 
@@ -43,7 +42,10 @@ namespace MyWalletApp.DomainModel
                 .Property(t => t.TransactionType)
                 .HasConversion(transactionTypeConventer);
 
-
+            builder.Entity<Category>()
+                .HasMany(c => c.Transactions)
+                .WithOne(t => t.Category)
+                .OnDelete(DeleteBehavior.SetNull);
         }
 
         private ValueConverter CreateValueConventer<T> () {
