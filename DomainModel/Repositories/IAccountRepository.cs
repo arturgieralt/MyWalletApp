@@ -8,6 +8,7 @@ namespace MyWalletApp.DomainModel.Repositories
          Task<Account> GetById(long accountId);
          Task<bool> DoesExistForUser(long entityId);
          Task<long> Save(Account account);
+         Task Delete (Account account);
 
     }
 }

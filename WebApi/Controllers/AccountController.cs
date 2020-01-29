@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyWalletApp.WebApi.Commands.CreateAccount;
+using MyWalletApp.WebApi.Commands.DeleteAccount;
 using MyWalletApp.WebApi.DTO.Requests;
 using MyWalletApp.WebApi.DTO.Results;
 using MyWalletApp.WebApi.Models;
@@ -46,6 +47,18 @@ namespace MyWalletApp.WebApi.Controllers
             };
             return Ok(response);
 
+        }
+
+
+        [HttpDelete] 
+        [Route("{accountId}")]        
+        public async Task<IActionResult> Delete(long accountId) 
+        {
+            var result = await _mediator.Send(new DeleteAccountCommand(){
+                Id = accountId
+            });
+
+            return Ok(result);
         }
         
     }

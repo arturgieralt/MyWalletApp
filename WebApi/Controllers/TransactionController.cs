@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyWalletApp.WebApi.Commands.AddTransaction;
+using MyWalletApp.WebApi.Commands.DeleteTransaction;
 using MyWalletApp.WebApi.DTO.Requests;
 using MyWalletApp.WebApi.DTO.Results;
 using MyWalletApp.WebApi.Queries.GetAllTransactions;
@@ -54,6 +55,17 @@ namespace MyWalletApp.WebApi.Controllers
             };
             return Ok(response);
 
+        }
+
+        [HttpDelete] 
+        [Route("{transactionId}")]        
+        public async Task<IActionResult> Delete(long transactionId) 
+        {
+            var result = await _mediator.Send(new DeleteTransactionCommand(){
+                Id = transactionId
+            });
+
+            return Ok(result);
         }
     }
 }

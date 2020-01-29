@@ -7,5 +7,6 @@ namespace MyWalletApp.DomainModel.Repositories
     {
         Task<Transaction> GetById(long transactionId);
         Task<long> Save(Transaction transaction);
+        Task Delete(Transaction transaction);
     }
 }

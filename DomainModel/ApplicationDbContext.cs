@@ -46,6 +46,11 @@ namespace MyWalletApp.DomainModel
                 .HasMany(c => c.Transactions)
                 .WithOne(t => t.Category)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Account>()
+                .HasMany(a => a.Transactions)
+                .WithOne(t => t.Account)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private ValueConverter CreateValueConventer<T> () {
