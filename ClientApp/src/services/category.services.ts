@@ -24,4 +24,8 @@ export class CategoryService {
     add(category: AddCategoryRequest): Observable<ApiResponse> {
         return this.http.post<ApiResponse>(this.baseUrl + endpoints.category, category);
     }
+
+    delete(categoryId: number): Observable<ApiResponse> {
+        return this.http.delete<ApiResponse>(this.baseUrl + endpoints.category + '/' + categoryId);
+    }
 }

@@ -3,7 +3,10 @@
 </a>
 
 <mat-list *ngIf="categories?.length > 0">
-    <mat-list-item *ngFor="let category of categories"> {{category.name}} </mat-list-item>
+    <mat-list-item *ngFor="let category of categories"> {{category.name}}
+        <button (click)="deleteCategory(category.id)"><mat-icon aria-hidden="false">delete</mat-icon></button>
+    </mat-list-item>
+    
 </mat-list>
 
 <div *ngIf="categories?.length === 0">Loading categories.</div>

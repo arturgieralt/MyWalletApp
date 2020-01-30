@@ -11,24 +11,30 @@ import { switchMap } from "rxjs/operators";
 })
 export class TransactionListComponent implements OnInit {
     private transactions: Transaction[] = [];
-    private columns: string[] = ['name', 'total', 'category', 'date', 'transactionType'];
+    private columns: string[] = ['name', 'total', 'category', 'date', 'transactionType', 'delete'];
 
     constructor(
         private transactionService: TransactionService,
         private routeService: ActivatedRoute) {}
 
     ngOnInit() {
-        this.getTransactions().subscribe(r => {
-            this.transactions = [...r.items];
-        })
+        this.getTransactions();
     }
 
     getTransactions() {
-        return this.routeService.paramMap.pipe(
+        this.routeService.paramMap.pipe(
             switchMap((params: ParamMap) => {
                 const accountId = params.get('id');
                 return this.transactionService.getAll(accountId);
             })
-        );
+        ).subscribe(r => {
+            this.transactions = [...r.items];
+        });
+    }
+
+    deleteTransaction(transactionId: number) {
+        this.transactionService.delete(transactionId).subscribe(() => {
+            this.getTransactions();
+        })
     }
 }

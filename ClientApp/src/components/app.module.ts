@@ -11,6 +11,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatIconModule} from '@angular/material/icon';
 
 
 import { AppComponent } from './app.component';
@@ -48,6 +49,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTableModule,
     MatButtonModule,
     MatInputModule,
+    MatIconModule,
     MatToolbarModule,
     MatSelectModule,
     MatSnackBarModule,

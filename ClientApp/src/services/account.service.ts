@@ -24,4 +24,8 @@ export class AccountService {
     add(account: AddAccountRequest): Observable<ApiResponse> {
         return this.http.post<ApiResponse>(this.baseUrl + endpoints.account, account);
     }
+
+    delete(accountId: number): Observable<ApiResponse> {
+        return this.http.delete<ApiResponse>(this.baseUrl + endpoints.account + '/' + accountId);
+    }
 }

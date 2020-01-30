@@ -16,7 +16,6 @@ export class TransactionService {
 
     getAll(accountId?: string): Observable<ApiListResponse<Transaction>> {
         let url = this.baseUrl + endpoints.transaction;
-        console.log(accountId)
         if(accountId) {
             url = url +  `?AccountId=${accountId}`
         }
@@ -25,5 +24,9 @@ export class TransactionService {
 
     add(transaction: AddTransactionRequest): Observable<ApiResponse> {
         return this.http.post<ApiResponse>(this.baseUrl + endpoints.transaction, transaction);
+    }
+
+    delete(transactionId: number): Observable<ApiResponse> {
+        return this.http.delete<ApiResponse>(this.baseUrl + endpoints.transaction + '/' + transactionId);
     }
 }

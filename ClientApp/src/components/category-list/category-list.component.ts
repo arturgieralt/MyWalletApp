@@ -12,8 +12,18 @@ export class CategoryListComponent implements OnInit {
     constructor(private categoryService: CategoryService) {}
 
     ngOnInit() {
+        this.getCategories();
+    }
+
+    getCategories() {
         this.categoryService.getAll().subscribe(r => {
             this.categories = [...r.items];
+        })
+    }
+
+    deleteCategory(categoryId: number) {
+        this.categoryService.delete(categoryId).subscribe(() => {
+            this.getCategories();
         })
     }
 }
