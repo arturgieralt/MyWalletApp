@@ -11,9 +11,16 @@ namespace MyWalletApp.DomainModel.Models
         [Required]
         public string Name { get; set; }
 
+        [Required]
+        public long CurrencyId { get; set; }
         public Currency Currency {get; set;}
 
         public IReadOnlyList<Transaction> Transactions => _transactions.AsReadOnly();
+
+        public Account(string name, long currencyId) {
+            Name = name;
+            CurrencyId = currencyId;
+        }
         
     }
 }

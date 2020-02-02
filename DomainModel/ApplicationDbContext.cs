@@ -19,6 +19,8 @@ namespace MyWalletApp.DomainModel
         public DbSet<Category> Categories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<Currency> Currencies { get; set;}
+
 
         public ApplicationDbContext(
             DbContextOptions options,
@@ -33,18 +35,22 @@ namespace MyWalletApp.DomainModel
            
             base.OnModelCreating(builder);
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(255));
-            builder.Entity<Category>();
 
             var transactionTypeConventer = CreateValueConventer<TransactionType>();
-            var currencyConventer = CreateValueConventer<Currency>();
 
             builder.Entity<Transaction>()
                 .Property(t => t.TransactionType)
                 .HasConversion(transactionTypeConventer);
 
+            builder.Entity<Category>()
+                .HasMany(c => c.Transactions)
+                .WithOne(t => t.Category)
+                .OnDelete(DeleteBehavior.SetNull);
+
             builder.Entity<Account>()
-                .Property(a => a.Currency)
-                .HasConversion(currencyConventer);
+                .HasMany(a => a.Transactions)
+                .WithOne(t => t.Account)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private ValueConverter CreateValueConventer<T> () {

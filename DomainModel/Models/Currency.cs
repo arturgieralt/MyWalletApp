@@ -1,8 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MyWalletApp.DomainModel.Models
 {
-    public enum Currency
+    [Table("Currency")]    
+    public class Currency
     {
-        USD = 0,
-        PLN
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id {get; set;}
+        public string Name {get; set;}
+        public string ShortName {get; set;}
     }
 }

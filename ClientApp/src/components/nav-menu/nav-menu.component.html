@@ -1,0 +1,21 @@
+<mat-toolbar class="list-horizontal">    
+  <a mat-raised-button [routerLink]="['/']">MyWalletApp</a>
+  <mat-list class="list-horizontal">
+        <mat-list-item [routerLinkActive]="['link-active']">
+          <a mat-raised-button [routerLink]="['/accounts']">
+            Accounts
+          </a>
+        </mat-list-item>
+        <mat-list-item [routerLinkActive]="['link-active']">
+          <a mat-raised-button [routerLink]="['/categories']">
+            Categories
+          </a>
+        </mat-list-item>
+        <mat-list-item [routerLinkActive]="['link-active']">
+          <a mat-raised-button [routerLink]="['/transactions']">
+            Transactions
+          </a>
+        </mat-list-item>
+  </mat-list>
+  <app-login-menu></app-login-menu>        
+</mat-toolbar>
