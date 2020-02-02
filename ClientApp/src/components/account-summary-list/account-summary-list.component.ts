@@ -10,7 +10,6 @@ import { Router } from "@angular/router";
 })
 export class AccountSummaryListComponent implements OnInit {
     private accounts: AccountSummary[] = [];
-    private columns: string[] = ['name', 'balance', 'transactionCount', 'currency', 'createdOn', 'delete'];
 
     constructor(private accountService: AccountService, private router: Router) {}
 

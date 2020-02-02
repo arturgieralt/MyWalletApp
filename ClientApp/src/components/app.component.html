@@ -1,6 +1,10 @@
 <body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
+  <clr-main-container>
+    <app-nav-menu></app-nav-menu>
+    <div class="content-container">
+        <main class="content-area">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+  </clr-main-container>
 </body>

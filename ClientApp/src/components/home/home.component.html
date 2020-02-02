@@ -1,4 +1,11 @@
-<h1>Hello, world!</h1>
-<mat-form-field class="example-full-width">
-  <input matInput placeholder="Favorite food" value="Sushi">
-</mat-form-field>
+<ng-container *ngIf="isAuthenticated | async">
+  <h1>Hello, {{userName | async }}.</h1>
+  <p>Welcome in Home Accountant App.</p>
+</ng-container>
+
+<ng-container *ngIf="!(isAuthenticated | async)">
+  <h1>Hello.</h1>
+  <p>Please register or log in to continue.</p>
+</ng-container>
+
+

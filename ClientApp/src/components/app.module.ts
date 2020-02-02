@@ -13,6 +13,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatIconModule} from '@angular/material/icon';
 
+import { ClarityModule } from "@clr/angular";
+
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -45,6 +47,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     TransactionFormComponent
   ],
   imports: [
+    ClarityModule,
     MatListModule,
     MatTableModule,
     MatButtonModule,

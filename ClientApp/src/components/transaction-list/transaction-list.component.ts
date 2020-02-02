@@ -11,7 +11,6 @@ import { switchMap } from "rxjs/operators";
 })
 export class TransactionListComponent implements OnInit {
     private transactions: Transaction[] = [];
-    private columns: string[] = ['name', 'total', 'category', 'date', 'transactionType', 'delete'];
 
     constructor(
         private transactionService: TransactionService,

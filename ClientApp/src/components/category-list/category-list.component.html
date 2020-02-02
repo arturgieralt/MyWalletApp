@@ -1,12 +1,22 @@
-<a mat-raised-button [routerLink]="['/categories/add']">
-    Add new
-</a>
+<button type="button" [routerLink]="['/categories/add']" class="btn btn-icon btn-primary">
+    <clr-icon shape="add"></clr-icon>
+    Add
+</button>
 
-<mat-list *ngIf="categories?.length > 0">
-    <mat-list-item *ngFor="let category of categories"> {{category.name}}
-        <button (click)="deleteCategory(category.id)"><mat-icon aria-hidden="false">delete</mat-icon></button>
-    </mat-list-item>
-    
-</mat-list>
-
-<div *ngIf="categories?.length === 0">Loading categories.</div>
+  <ng-container *ngIf="categories?.length > 0">
+    <clr-datagrid>
+      <clr-dg-column>Name</clr-dg-column>
+      <clr-dg-column>Delete</clr-dg-column>
+  
+      <clr-dg-row *ngFor="let category of categories">
+          <clr-dg-cell>{{category.name}}</clr-dg-cell>
+          <clr-dg-cell>
+            <button (click)="deleteCategory(category.id)" type="button" class="btn btn-icon btn-danger">
+            <clr-icon shape="delete"></clr-icon>
+          </button>
+        </clr-dg-cell>
+        </clr-dg-row>
+  
+      <clr-dg-footer>{{categories.length}} categories</clr-dg-footer>
+    </clr-datagrid>
+  </ng-container>

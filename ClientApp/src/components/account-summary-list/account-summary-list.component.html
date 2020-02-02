@@ -1,50 +1,31 @@
-<a mat-raised-button [routerLink]="['/accounts/add']">
-  Add new
-</a>
 
-<div class="mat-elevation-z8" *ngIf="accounts?.length > 0">
-    <table mat-table [dataSource]="accounts">
+<button type="button" [routerLink]="['/accounts/add']" class="btn btn-icon btn-primary">
+  <clr-icon shape="add"></clr-icon>
+  Add
+</button>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let account" (click)="goToAccountDetails(account.id)"> {{account.name}} </td>
-      </ng-container>
-  
-      <!-- Balance Column -->
-      <ng-container matColumnDef="balance">
-        <th mat-header-cell *matHeaderCellDef> Balance </th>
-        <td mat-cell *matCellDef="let account"> {{account.balance}} </td>
-      </ng-container>
+<ng-container *ngIf="accounts?.length > 0">
+  <clr-datagrid>
+    <clr-dg-column>Name</clr-dg-column>
+    <clr-dg-column>Balance</clr-dg-column>
+    <clr-dg-column>Transaction Count</clr-dg-column>
+    <clr-dg-column>Currency</clr-dg-column>
+    <clr-dg-column>Date</clr-dg-column>
+    <clr-dg-column>Delete</clr-dg-column>
 
-      <!-- TransactionCount Column -->
-      <ng-container matColumnDef="transactionCount">
-        <th mat-header-cell *matHeaderCellDef> Transaction Count </th>
-        <td mat-cell *matCellDef="let account"> {{account.transactionCount}} </td>
-      </ng-container>
+    <clr-dg-row *ngFor="let account of accounts">
+        <clr-dg-cell (click)="goToAccountDetails(account.id)">{{account.name}}</clr-dg-cell>
+        <clr-dg-cell>{{account.balance}}</clr-dg-cell>
+        <clr-dg-cell>{{account.transactionCount}}</clr-dg-cell>
+        <clr-dg-cell>{{account?.currency.shortName}}</clr-dg-cell>
+        <clr-dg-cell>{{account.createdOn | date}}</clr-dg-cell>
+        <clr-dg-cell>
+          <button (click)="deleteAccount(account.id)" type="button" class="btn btn-icon btn-danger">
+          <clr-icon shape="delete"></clr-icon>
+        </button>
+      </clr-dg-cell>
+      </clr-dg-row>
 
-      <!-- Currency Column -->
-      <ng-container matColumnDef="currency">
-        <th mat-header-cell *matHeaderCellDef> Currency </th>
-        <td mat-cell *matCellDef="let account"> {{account?.currency.shortName}} </td>
-      </ng-container>
-
-      <!-- CreatedOn Column -->
-      <ng-container matColumnDef="createdOn">
-        <th mat-header-cell *matHeaderCellDef> Created </th>
-        <td mat-cell *matCellDef="let account"> {{account.createdOn}} </td>
-      </ng-container>
-
-      <!-- Delete Column -->
-      <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef> Delete </th>
-        <td mat-cell *matCellDef="let account">
-          <button (click)="deleteAccount(account.id)"><mat-icon aria-hidden="false">delete</mat-icon></button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="columns"></tr>
-      <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-    </table>
-  
-  </div>
+    <clr-dg-footer>{{accounts.length}} accounts</clr-dg-footer>
+  </clr-datagrid>
+</ng-container>

@@ -1,17 +1,15 @@
-<mat-list class="list-horizontal" *ngIf="isAuthenticated | async">
-    <mat-list-item>
-      <a mat-raised-button [routerLink]='["/authentication/profile"]' title="Manage">Hello {{ userName | async }}</a>
-    </mat-list-item>
-    <mat-list-item>
-      <a mat-raised-button [routerLink]='["/authentication/logout"]' [state]='{ local: true }' title="Logout">Logout</a>
-    </mat-list-item>
-</mat-list>
+<ng-container *ngIf="isAuthenticated | async">
 
-<mat-list class="list-horizontal" *ngIf="!(isAuthenticated | async)">
-    <mat-list-item>
-      <a mat-raised-button [routerLink]='["/authentication/register"]'>Register</a>
-    </mat-list-item>
-    <mat-list-item>
-      <a mat-raised-button [routerLink]='["/authentication/login"]'>Login</a>
-    </mat-list-item>
-</mat-list>
+  <a [routerLink]='["/authentication/profile"]' class="nav-link nav-icon-text" title="Manage">
+    <clr-icon shape="user"></clr-icon>
+    <span class="nav-text">{{ userName | async }}</span>
+  </a>
+  <a [routerLink]='["/authentication/logout"]'  [state]='{ local: true }' class="nav-link nav-text" title="Logout">
+    Log Out 
+  </a>
+</ng-container>
+
+<ng-container *ngIf="!(isAuthenticated | async)">
+      <a [routerLink]='["/authentication/register"]'class="nav-link nav-text" >Register</a>
+      <a [routerLink]='["/authentication/login"]' class="nav-link nav-text">Login</a>
+</ng-container>

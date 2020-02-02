@@ -6,15 +6,13 @@ import { LogoutComponent } from './logout/logout.component';
 import { RouterModule } from '@angular/router';
 import { ApplicationPaths } from './api-authorization.constants';
 import { HttpClientModule } from '@angular/common/http';
-import {MatListModule} from '@angular/material/list';
-import {MatButtonModule} from '@angular/material/button';
+import { ClarityModule } from "@clr/angular";
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    MatListModule,
-    MatButtonModule,
+    ClarityModule,
     RouterModule.forChild(
       [
         { path: ApplicationPaths.Register, component: LoginComponent },
