@@ -10,6 +10,8 @@ import { TransactionService } from "src/services/transaction.service";
 import AddTransactionRequest from "src/types/AddTransactionRequest";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
+import { GeoLocationService } from "src/services/geolocation.service";
+import * as L from 'leaflet';
 
 @Component({
     selector: 'transaction-form',
@@ -23,12 +25,13 @@ export class TransactionFormComponent implements OnInit {
     private accounts: AccountSummary[];
     private categories: Category[];
     private accountId: string;
+    private map: L.Map;
 
     private transactionForm = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
         category: new FormControl(null, [Validators.required, Validators.min(1)]),
         account: new FormControl(null, [Validators.required, Validators.min(1)]),
-        date: new FormControl(new Date().toString(), [Validators.required]),
+        date: new FormControl(new Date(), [Validators.required]),
         total: new FormControl(0, [Validators.required]),
         type: new FormControl(0, [Validators.required])
     })
@@ -38,7 +41,8 @@ export class TransactionFormComponent implements OnInit {
         private categoryService: CategoryService, 
         private notificationService: ToastrService,
         private routeService: ActivatedRoute,
-        private transactionService: TransactionService
+        private transactionService: TransactionService,
+        private geolocationService: GeoLocationService
         ){}
 
     ngOnInit() {
@@ -69,6 +73,30 @@ export class TransactionFormComponent implements OnInit {
         this.accountService.getAll().subscribe(r => {
             this.accounts = [...r.items];
         });
+    }
+
+    getLocation() {
+        this.geolocationService.getCurrentPosition().subscribe(position => {
+            if(!this.map) {
+                const accessToken = "pk.eyJ1IjoiZ2llcmkwNyIsImEiOiJjazY2eWJnM3EwMzJmM2VtemZzc2s1dzcyIn0.VzXZOLhgdp8eqmlHPFsIew";
+                const coords: L.LatLngExpression = [position.coords.latitude, position.coords.longitude];
+                this.map = L.map('mapid').setView(coords, 13);
+                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                accessToken
+            }).addTo(this.map);
+
+            const marker = L.marker(coords).addTo(this.map);
+
+            function onMapClick(e: L.LeafletMouseEvent) {
+                marker.setLatLng(e.latlng);
+            }
+            
+            this.map.on('click', onMapClick);
+        }
+        })
     }
 
     onSubmit() {
