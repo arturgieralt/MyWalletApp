@@ -28,7 +28,7 @@ export class TransactionFormComponent implements OnInit {
         name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
         category: new FormControl(null, [Validators.required, Validators.min(1)]),
         account: new FormControl(null, [Validators.required, Validators.min(1)]),
-        date: new FormControl(new Date(), [Validators.required]),
+        date: new FormControl(new Date().toString(), [Validators.required]),
         total: new FormControl(0, [Validators.required]),
         type: new FormControl(0, [Validators.required])
     })
@@ -82,10 +82,11 @@ export class TransactionFormComponent implements OnInit {
                 account
             } = this.transactionForm.value;
 
+            console.log(date);
             const transactionRequest = new AddTransactionRequest(
                 name,
                 Number(account),
-                new Date(date),
+                date,
                 Number(total),
                 Number(type),
                 !isNaN(category) && Number(category)

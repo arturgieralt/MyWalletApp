@@ -7,7 +7,6 @@ namespace MyWalletApp.DomainModel.Models
     [Table("Account")]
     public class Account: BaseModel
     {
-        private readonly List<Transaction> _transactions = new List<Transaction>();
         [Required]
         public string Name { get; set; }
 
@@ -15,7 +14,7 @@ namespace MyWalletApp.DomainModel.Models
         public long CurrencyId { get; set; }
         public Currency Currency {get; set;}
 
-        public IReadOnlyList<Transaction> Transactions => _transactions.AsReadOnly();
+        public ICollection<Transaction> Transactions {get; set;}
 
         public Account(string name, long currencyId) {
             Name = name;

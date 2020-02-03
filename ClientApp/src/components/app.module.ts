@@ -6,7 +6,8 @@ import { RouterModule } from '@angular/router';
 
 import { ClarityModule } from "@clr/angular";
 import { ToastrModule } from 'ngx-toastr';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -38,6 +39,8 @@ import { TransactionFormComponent } from './transaction-form/transaction-form.co
   ],
   imports: [
     ToastrModule.forRoot(),
+    MatDatepickerModule,
+    MatMomentDateModule,
     ClarityModule,
     ReactiveFormsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -57,7 +60,8 @@ import { TransactionFormComponent } from './transaction-form/transaction-form.co
     ])
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ],
   bootstrap: [AppComponent]
 })
