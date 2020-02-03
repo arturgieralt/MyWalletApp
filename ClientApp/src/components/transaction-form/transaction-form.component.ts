@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { ToastrService } from 'ngx-toastr';
 import ApiResponse from "src/types/ApiResponse";
 import { AccountService } from "src/services/account.service";
 import { AccountSummary } from "src/types/AccountSummary";
@@ -36,7 +36,7 @@ export class TransactionFormComponent implements OnInit {
     constructor(
         private accountService: AccountService, 
         private categoryService: CategoryService, 
-        private notificationService: MatSnackBar,
+        private notificationService: ToastrService,
         private routeService: ActivatedRoute,
         private transactionService: TransactionService
         ){}
@@ -85,7 +85,7 @@ export class TransactionFormComponent implements OnInit {
             const transactionRequest = new AddTransactionRequest(
                 name,
                 Number(account),
-                date,
+                new Date(date),
                 Number(total),
                 Number(type),
                 !isNaN(category) && Number(category)
@@ -100,7 +100,7 @@ export class TransactionFormComponent implements OnInit {
     private afterSubmitAction = (r: ApiResponse) => {
         this.transactionForm.reset();
         this.formRef.resetForm();
-        this.notificationService.open(r.message);
+        this.notificationService.info(r.message);
     }
 
 }
