@@ -39,9 +39,22 @@
             <input matInput [matDatepicker]="myDatepicker" formControlName="date">
             <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker></mat-datepicker>
-         
-            <button class="btn btn-primary" (click)="getLocation()" type="button">Add location</button>
-            <div id="mapid"></div>
+
+            <h2>Tag your transaction</h2>
+            <input clrInput placeholder="Add your tags" (change)="tag = $event.target.value" [value]="tag" />
+            <button class="btn btn-primary" (click)="addTag()" type="button">Add tag</button>
+            <div *ngIf="tags?.length > 0">
+              <span *ngFor="let tag of tags" href="..." class="label label-blue ">
+                {{tag}}
+                <span class="badge clickable" (click)="removeTag(tag)">X</span>
+              </span>
+            </div>
+            <div>
+              <button class="btn btn-primary" (click)="getLocation()" type="button">Add location</button>
+              <div id="mapid"></div>
+            </div>
+            
+
 
         <button [disabled]="!transactionForm.valid" class="btn btn-primary" type="submit">Submit</button>
         <!-- <button class="btn" type="button" (click)="resetForm()">Reset</button> -->

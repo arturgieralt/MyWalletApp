@@ -27,6 +27,8 @@ export class TransactionFormComponent implements OnInit {
     private accountId: string;
     private map: L.Map;
     private coords: number[] = null;
+    private tag: string= '';
+    private tags: string[] = [];
 
     private transactionForm = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
@@ -50,6 +52,17 @@ export class TransactionFormComponent implements OnInit {
         this.getAccountId();
         this.getCategories();
         this.getAccounts();
+    }
+
+    addTag() {
+        const tag = this.tag.toUpperCase().replace(/[^a-z0-9]/gi,'');;
+        if(!this.tags.includes(tag) && tag.length > 1) {
+            this.tags.push(tag);
+        }
+    }
+
+    removeTag(tag: string) {
+        this.tags = this.tags.filter(t => t !== tag);
     }
 
     getAccountId() {
