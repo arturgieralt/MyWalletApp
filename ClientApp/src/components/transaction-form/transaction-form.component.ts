@@ -26,6 +26,7 @@ export class TransactionFormComponent implements OnInit {
     private categories: Category[];
     private accountId: string;
     private map: L.Map;
+    private coords: number[] = null;
 
     private transactionForm = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
@@ -77,29 +78,37 @@ export class TransactionFormComponent implements OnInit {
 
     getLocation() {
         this.geolocationService.getCurrentPosition().subscribe(position => {
-            if(!this.map) {
-                const accessToken = "pk.eyJ1IjoiZ2llcmkwNyIsImEiOiJjazY2eWJnM3EwMzJmM2VtemZzc2s1dzcyIn0.VzXZOLhgdp8eqmlHPFsIew";
-                const coords: L.LatLngExpression = [position.coords.latitude, position.coords.longitude];
-                this.map = L.map('mapid').setView(coords, 13);
-                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-                id: 'mapbox/streets-v11',
-                accessToken
-            }).addTo(this.map);
-
-            const marker = L.marker(coords).addTo(this.map);
-
-            function onMapClick(e: L.LeafletMouseEvent) {
-                marker.setLatLng(e.latlng);
-            }
-            
-            this.map.on('click', onMapClick);
-        }
+            this.setMap(new L.LatLng(position.coords.latitude, position.coords.longitude));
+        }, error => {
+            this.setMap(new L.LatLng(51.5, -0.09));
         })
+    
     }
 
-    onSubmit() {
+    onMapClick = (marker: L.Marker) => (e: L.LeafletMouseEvent) => {
+        marker.setLatLng(e.latlng);
+        this.coords = [e.latlng.lat, e.latlng.lng];
+        console.log(this.coords)
+    }
+
+    private setMap(coords: L.LatLng) {
+        if(!this.map) {
+            this.coords = [coords.lat, coords.lng];
+            const accessToken = "pk.eyJ1IjoiZ2llcmkwNyIsImEiOiJjazY2eWJnM3EwMzJmM2VtemZzc2s1dzcyIn0.VzXZOLhgdp8eqmlHPFsIew";
+            this.map = L.map('mapid').setView(coords, 13);
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            accessToken
+        }).addTo(this.map);
+
+        const marker = L.marker(coords).addTo(this.map);
+        this.map.on('click', this.onMapClick(marker));
+        }
+    }
+
+    onSubmit = () => {
         if(this.transactionForm.valid) {
             const {
                 name,
@@ -110,7 +119,6 @@ export class TransactionFormComponent implements OnInit {
                 account
             } = this.transactionForm.value;
 
-            console.log(date);
             const transactionRequest = new AddTransactionRequest(
                 name,
                 Number(account),
@@ -119,6 +127,10 @@ export class TransactionFormComponent implements OnInit {
                 Number(type),
                 !isNaN(category) && Number(category)
             );
+
+            if(this.coords) {
+                transactionRequest.addCoordinates(this.coords[0], this.coords[1])
+            }
 
             this.transactionService
                 .add(transactionRequest)

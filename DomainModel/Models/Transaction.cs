@@ -29,6 +29,9 @@ namespace MyWalletApp.DomainModel.Models
 
         [Required]
         public long CurrencyId { get; set; }
-        public Category Currency {get; set;}   
+        public Category Currency {get; set; }   
+
+        public decimal? Latitude { get; set; }
+        public decimal? Longitute { get; set; }
     }
 }

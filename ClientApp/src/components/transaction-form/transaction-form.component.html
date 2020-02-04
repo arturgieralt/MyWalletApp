@@ -40,7 +40,7 @@
             <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker></mat-datepicker>
          
-            <button class="btn btn-primary" (click)="getLocation()">Add location</button>
+            <button class="btn btn-primary" (click)="getLocation()" type="button">Add location</button>
             <div id="mapid"></div>
 
         <button [disabled]="!transactionForm.valid" class="btn btn-primary" type="submit">Submit</button>
