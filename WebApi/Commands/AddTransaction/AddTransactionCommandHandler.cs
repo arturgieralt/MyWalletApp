@@ -56,7 +56,9 @@ namespace MyWalletApp.WebApi.Commands.AddTransaction
                 Total = GetCorrectTotal(transactionType, request.Total),
                 TransactionType = transactionType,
                 CurrencyId = (long)currencyId,
-                CategoryId = request.CategoryId
+                CategoryId = request.CategoryId,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude
             };
 
             try {

@@ -20,5 +20,9 @@ namespace MyWalletApp.WebApi.Models
         public Category Category {get; set;} 
 
         public Category Currency {get; set;}   
+
+        public decimal? Latitude { get; set; }
+
+        public decimal? Longitude { get; set; }
     }
 }

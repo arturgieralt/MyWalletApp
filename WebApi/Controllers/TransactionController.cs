@@ -37,7 +37,9 @@ namespace MyWalletApp.WebApi.Controllers
                 AccountId = request.AccountId,
                 Total = request.Total,
                 TransactionType = request.TransactionType,
-                CategoryId = request.CategoryId
+                CategoryId = request.CategoryId,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude
             });
 
             return Ok(result);

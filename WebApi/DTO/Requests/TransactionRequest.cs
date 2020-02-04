@@ -30,5 +30,11 @@ namespace MyWalletApp.WebApi.DTO.Requests
         [JsonProperty("categoryId")]
         public long? CategoryId { get; set; }
 
+        [JsonProperty("latitude")]
+        public decimal? Latitude { get; set; }
+
+        [JsonProperty("longitude")]
+        public decimal? Longitude { get; set; }
+
     }
 }

@@ -47,7 +47,9 @@ namespace MyWalletApp.WebApi.Queries.GetAllTransactions
                     Date = t.Date,
                     TransactionType = t.TransactionType,
                     Category = t.Category,
-                    Currency = t.Currency
+                    Currency = t.Currency,
+                    Latitude = t.Latitude,
+                    Longitude = t.Longitude
                 })
                 .OrderByDescending(t => t.Date)
                 .ToListAsync(cancellationToken)

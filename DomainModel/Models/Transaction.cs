@@ -32,6 +32,6 @@ namespace MyWalletApp.DomainModel.Models
         public Category Currency {get; set; }   
 
         public decimal? Latitude { get; set; }
-        public decimal? Longitute { get; set; }
+        public decimal? Longitude { get; set; }
     }
 }
