@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MyWalletApp.WebApi.Models;
 using Newtonsoft.Json;
@@ -26,6 +27,9 @@ namespace MyWalletApp.WebApi.DTO.Requests
         [Required]
         [JsonProperty("transactionType")]
         public TransactionType TransactionType { get; set; }
+        
+        [JsonProperty("tags")]
+        public IList<string> Tags { get; set; }
 
         [JsonProperty("categoryId")]
         public long? CategoryId { get; set; }

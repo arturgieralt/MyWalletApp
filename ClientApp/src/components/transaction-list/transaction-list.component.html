@@ -11,6 +11,7 @@
     <clr-dg-column>Date</clr-dg-column>
     <clr-dg-column>Type</clr-dg-column>
     <clr-dg-column>Coords</clr-dg-column>
+    <clr-dg-column>Tags</clr-dg-column>
     <clr-dg-column>Delete</clr-dg-column>
 
     <clr-dg-row *ngFor="let transaction of transactions">
@@ -20,6 +21,8 @@
         <clr-dg-cell>{{transaction.date}}</clr-dg-cell>
         <clr-dg-cell>{{transaction.transactionType}}</clr-dg-cell>
         <clr-dg-cell>{{transaction.latitude}}, {{transaction.longitude}}</clr-dg-cell>
+        <clr-dg-cell><span *ngFor="let tag of transaction.tags">
+          #{{tag}} </span></clr-dg-cell>
         <clr-dg-cell>
           <button (click)="deleteTransaction(transaction.id)" type="button" class="btn btn-icon btn-danger">
           <clr-icon shape="delete"></clr-icon>

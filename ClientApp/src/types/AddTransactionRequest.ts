@@ -10,8 +10,8 @@ export default class AddTransactionRequest {
         public date: Date,
         public total: number,
         public transactionType: TransactionType,
-        public categoryId?: number,
-
+        public tags: string[],
+        public categoryId?: number
     ){}
 
     addCoordinates(latitude: number, longitute: number) {

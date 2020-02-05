@@ -21,6 +21,8 @@ namespace MyWalletApp.DomainModel
 
         public DbSet<Currency> Currencies { get; set;}
 
+        public DbSet<Tag> Tags { get; set;}
+
 
         public ApplicationDbContext(
             DbContextOptions options,
@@ -51,6 +53,19 @@ namespace MyWalletApp.DomainModel
                 .HasMany(a => a.Transactions)
                 .WithOne(t => t.Account)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<TransactionTag>()
+                .HasKey(t => new { t.TransactionId, t.TagId });
+
+            builder.Entity<TransactionTag>()
+                .HasOne(tt => tt.Transaction)
+                .WithMany(transaction => transaction.TransactionTags)
+                .HasForeignKey(tt => tt.TransactionId);
+
+            builder.Entity<TransactionTag>()
+                .HasOne(tt => tt.Tag)
+                .WithMany(tag => tag.TransactionTags)
+                .HasForeignKey(tt => tt.TagId);
         }
 
         private ValueConverter CreateValueConventer<T> () {

@@ -58,6 +58,7 @@ export class TransactionFormComponent implements OnInit {
         const tag = this.tag.toUpperCase().replace(/[^a-z0-9]/gi,'');;
         if(!this.tags.includes(tag) && tag.length > 1) {
             this.tags.push(tag);
+            this.tag = '';
         }
     }
 
@@ -138,6 +139,7 @@ export class TransactionFormComponent implements OnInit {
                 date,
                 Number(total),
                 Number(type),
+                this.tags,
                 !isNaN(category) && Number(category)
             );
 

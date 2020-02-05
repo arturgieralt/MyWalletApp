@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -17,15 +18,19 @@ namespace MyWalletApp.WebApi.Commands.AddTransaction
         private readonly ITransactionRepository _transactionRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ITagRepository _tagRepository;
+
 
         public AddTransactionCommandHandler(
             ITransactionRepository transactionRepository, 
             IAccountRepository accountRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            ITagRepository tagRepository)
         {
             _transactionRepository = transactionRepository;
             _accountRepository = accountRepository;
             _categoryRepository = categoryRepository;
+            _tagRepository = tagRepository;
         }
 
         public async Task<CommandResult> Handle(AddTransactionCommand request, CancellationToken cancellationToken)
@@ -60,6 +65,28 @@ namespace MyWalletApp.WebApi.Commands.AddTransaction
                 Latitude = request.Latitude,
                 Longitude = request.Longitude
             };
+
+            var transactionTags = new List<TransactionTag> {};
+            
+            foreach(var tagName in request.Tags) {
+                var tag = await _tagRepository.GetByName(tagName);
+
+                if(tag == null) {
+                    tag = new Tag(){
+                        Name = tagName
+                    };
+                    await _tagRepository.Save(tag);
+                }
+
+                var transactionTag = new TransactionTag() {
+                    Transaction = transaction,
+                    Tag = tag
+                };
+
+                transactionTags.Add(transactionTag);
+            }
+
+            transaction.TransactionTags = transactionTags;
 
             try {
                 var transactionId =  await _transactionRepository.Save(transaction);
