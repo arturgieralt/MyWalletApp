@@ -3,16 +3,11 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import {MatListModule} from '@angular/material/list';
-import {MatTableModule} from '@angular/material/table';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatSelectModule} from '@angular/material/select';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatIconModule} from '@angular/material/icon';
 
+import { ClarityModule } from "@clr/angular";
+import { ToastrModule } from 'ngx-toastr';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -24,12 +19,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CategoryListComponent } from './category-list/category-list.component';
 import { AccountSummaryListComponent } from './account-summary-list/account-summary-list.component';
-import {MatInputModule} from '@angular/material/input';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { AccountFormComponent } from './account-form/account-form.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { TransactionFormComponent } from './transaction-form/transaction-form.component';
-import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -45,17 +38,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     TransactionFormComponent
   ],
   imports: [
-    MatListModule,
-    MatTableModule,
-    MatButtonModule,
-    MatInputModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSelectModule,
-    MatSnackBarModule,
+    ToastrModule.forRoot(),
     MatDatepickerModule,
-    MatNativeDateModule,
-    MatRadioModule,
+    MatMomentDateModule,
+    ClarityModule,
     ReactiveFormsModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
@@ -74,7 +60,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     ])
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ],
   bootstrap: [AppComponent]
 })

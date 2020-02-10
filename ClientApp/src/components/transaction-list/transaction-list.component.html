@@ -1,50 +1,35 @@
-<a mat-raised-button [routerLink]="['add']">
-  Add new
-</a>
+<button type="button" [routerLink]="['add']" class="btn btn-icon btn-primary">
+  <clr-icon shape="add"></clr-icon>
+  Add
+</button>
 
-  
-  <div class="mat-elevation-z8" *ngIf="transactions?.length > 0">
-      <table mat-table [dataSource]="transactions">
-  
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let transaction"> {{transaction.name}} </td>
-        </ng-container>
-    
-        <!-- Total Column -->
-        <ng-container matColumnDef="total">
-          <th mat-header-cell *matHeaderCellDef> Total </th>
-          <td mat-cell *matCellDef="let transaction"> {{transaction.total}} </td>
-        </ng-container>
-  
-        <!-- Category Column -->
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef> Category </th>
-          <td mat-cell *matCellDef="let transaction"> {{transaction.category?.name}} </td>
-        </ng-container>
-  
-        <!-- Date Column -->
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef> Date </th>
-          <td mat-cell *matCellDef="let transaction"> {{transaction.date}} </td>
-        </ng-container>
-  
-        <!-- TransactionType Column -->
-        <ng-container matColumnDef="transactionType">
-          <th mat-header-cell *matHeaderCellDef> Type </th>
-          <td mat-cell *matCellDef="let transaction"> {{transaction.transactionType}} </td>
-        </ng-container>
+<ng-container *ngIf="transactions?.length > 0">
+  <clr-datagrid>
+    <clr-dg-column>Name</clr-dg-column>
+    <clr-dg-column>Total</clr-dg-column>
+    <clr-dg-column>Category</clr-dg-column>
+    <clr-dg-column>Date</clr-dg-column>
+    <clr-dg-column>Type</clr-dg-column>
+    <clr-dg-column>Coords</clr-dg-column>
+    <clr-dg-column>Tags</clr-dg-column>
+    <clr-dg-column>Delete</clr-dg-column>
 
-        <!-- Delete Column -->
-        <ng-container matColumnDef="delete">
-          <th mat-header-cell *matHeaderCellDef> Delete </th>
-          <td mat-cell *matCellDef="let transaction">
-            <button (click)="deleteTransaction(transaction.id)"><mat-icon aria-hidden="false">delete</mat-icon></button></td>
-        </ng-container>
-    
-        <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-      </table>
-    
-    </div>
+    <clr-dg-row *ngFor="let transaction of transactions">
+        <clr-dg-cell>{{transaction.name}}</clr-dg-cell>
+        <clr-dg-cell>{{transaction.total}}</clr-dg-cell>
+        <clr-dg-cell>{{transaction.category?.name}}</clr-dg-cell>
+        <clr-dg-cell>{{transaction.date}}</clr-dg-cell>
+        <clr-dg-cell>{{transaction.transactionType}}</clr-dg-cell>
+        <clr-dg-cell>{{transaction.latitude}}, {{transaction.longitude}}</clr-dg-cell>
+        <clr-dg-cell><span *ngFor="let tag of transaction.tags">
+          #{{tag}} </span></clr-dg-cell>
+        <clr-dg-cell>
+          <button (click)="deleteTransaction(transaction.id)" type="button" class="btn btn-icon btn-danger">
+          <clr-icon shape="delete"></clr-icon>
+        </button>
+      </clr-dg-cell>
+      </clr-dg-row>
+
+    <clr-dg-footer>{{transactions.length}} transactions</clr-dg-footer>
+  </clr-datagrid>
+</ng-container>

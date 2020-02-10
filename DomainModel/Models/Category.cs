@@ -7,11 +7,10 @@ namespace MyWalletApp.DomainModel.Models
     [Table("Category")]    
     public class Category: BaseModel
     {
-        private readonly List<Transaction> _transactions = new List<Transaction>();
         
         [Required]
         public string Name {get; set;}
-        public IReadOnlyList<Transaction> Transactions => _transactions.AsReadOnly();
+        public ICollection<Transaction> Transactions {get; set;}
         
     }
 }

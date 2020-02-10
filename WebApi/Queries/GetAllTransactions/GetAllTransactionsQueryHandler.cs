@@ -29,6 +29,8 @@ namespace MyWalletApp.WebApi.Queries.GetAllTransactions
             
             var transactionsQuery =  _applicationDbContext
                 .Transactions
+                .Include(t => t.TransactionTags)
+                    .ThenInclude(tt => tt.Tag)
                 .Where(c => c.CreatedById == userId);
 
             if(request.AccountId != null) 
@@ -47,7 +49,10 @@ namespace MyWalletApp.WebApi.Queries.GetAllTransactions
                     Date = t.Date,
                     TransactionType = t.TransactionType,
                     Category = t.Category,
-                    Currency = t.Currency
+                    Currency = t.Currency,
+                    Tags = t.TransactionTags.Select(tt => tt.Tag.Name).ToList(),
+                    Latitude = t.Latitude,
+                    Longitude = t.Longitude
                 })
                 .OrderByDescending(t => t.Date)
                 .ToListAsync(cancellationToken)

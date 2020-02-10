@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,6 +30,12 @@ namespace MyWalletApp.DomainModel.Models
 
         [Required]
         public long CurrencyId { get; set; }
-        public Category Currency {get; set;}   
+        public Category Currency {get; set; }   
+
+        public ICollection<TransactionTag> TransactionTags {get;set;}
+
+        public decimal? Latitude { get; set; }
+        public decimal? Longitude { get; set; }
+        
     }
 }

@@ -9,6 +9,9 @@ export default interface Transaction {
     total: number;
     date: Date;
     transactionType: TransactionType;
+    tags: string[];
     category: Category;
     currency: Currency;
+    latitude?: number;
+    longitude?: number;
 }

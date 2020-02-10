@@ -1,21 +1,17 @@
-<mat-toolbar class="list-horizontal">    
-  <a mat-raised-button [routerLink]="['/']">MyWalletApp</a>
-  <mat-list class="list-horizontal">
-        <mat-list-item [routerLinkActive]="['link-active']">
-          <a mat-raised-button [routerLink]="['/accounts']">
-            Accounts
-          </a>
-        </mat-list-item>
-        <mat-list-item [routerLinkActive]="['link-active']">
-          <a mat-raised-button [routerLink]="['/categories']">
-            Categories
-          </a>
-        </mat-list-item>
-        <mat-list-item [routerLinkActive]="['link-active']">
-          <a mat-raised-button [routerLink]="['/transactions']">
-            Transactions
-          </a>
-        </mat-list-item>
-  </mat-list>
+<clr-header class="header header-6">
+
+  <div class="branding">
+    <a [routerLink]="['/']" class="nav-link">
+      <clr-icon shape="wallet"></clr-icon>
+      <span class="title">Home Accountant</span>
+   </a>
+  </div>
+<div class="header-nav" [clr-nav-level]="1" *ngIf="isAuthenticated | async">
+    <a class="nav-link nav-text" [routerLinkActive]="['link-active']" [routerLink]="['/accounts']">Accounts</a>
+    <a class="nav-link nav-text" [routerLinkActive]="['link-active']" [routerLink]="['/categories']">Categories</a>
+    <a class="nav-link nav-text" [routerLinkActive]="['link-active']" [routerLink]="['/transactions']">Transactions</a>
+</div>
+<div class="header-actions">
   <app-login-menu></app-login-menu>        
-</mat-toolbar>
+</div>
+</clr-header>

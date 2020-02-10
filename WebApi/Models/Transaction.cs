@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MyWalletApp.DomainModel.Models;
 
 namespace MyWalletApp.WebApi.Models
@@ -20,5 +21,11 @@ namespace MyWalletApp.WebApi.Models
         public Category Category {get; set;} 
 
         public Category Currency {get; set;}   
+
+        public ICollection<string> Tags {get; set; }
+
+        public decimal? Latitude { get; set; }
+
+        public decimal? Longitude { get; set; }
     }
 }

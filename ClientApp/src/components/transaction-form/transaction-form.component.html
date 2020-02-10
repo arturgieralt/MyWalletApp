@@ -1,40 +1,62 @@
 <ng-container *ngIf="accounts?.length > 0">
-    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" #formRef="ngForm">
-        <mat-form-field class="full-width">
-            <input matInput placeholder="Transaction name" formControlName="name">
-        </mat-form-field>
 
-        <mat-radio-group aria-label="Select a transaction type" formControlName="type">
-            <mat-radio-button value="0" [checked]="transactionForm.value.type === 0">Expense</mat-radio-button>
-            <mat-radio-button value="1" [checked]="transactionForm.value.type === 1">Income</mat-radio-button>
-        </mat-radio-group>
+    <form 
+    clrForm 
+    clrLabelSize="12"
+    clrLayout="vertical"
+    [formGroup]="transactionForm" (ngSubmit)="onSubmit()" #formRef="ngForm">
+      <clr-input-container>
 
-        <mat-form-field class="full-width">
-            <input matInput type="number" step="0.01" placeholder="Total" formControlName="total">
-        </mat-form-field>
-    
-        <mat-form-field class="full-width" *ngIf="!accountId">
-            <mat-label>Select an account</mat-label>
-            <mat-select formControlName="account">
-              <mat-option *ngFor="let account of accounts" [value]="account.id">{{account.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+        <label>New Transaction</label>
+        <input clrInput placeholder="Transaction name" formControlName="name" />
+      </clr-input-container>
+        
+        <clr-radio-wrapper>
+            <input type="radio" clrRadio value="0" [checked]="transactionForm.value.type === 0" formControlName="type" />
+            <label>Expense</label>
+          </clr-radio-wrapper>
+          <clr-radio-wrapper>
+            <input type="radio" clrRadio value="1" [checked]="transactionForm.value.type === 1" formControlName="type"/>
+            <label>Income</label>
+        </clr-radio-wrapper>
 
-        <mat-form-field class="full-width">
-            <mat-label>Select a category</mat-label>
-            <mat-select formControlName="category">
-              <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+        <input clrInput type="number" step="0.01" placeholder="Total" formControlName="total" />
 
-        <mat-form-field>
+        <clr-select-container>
+            <label>Select an account</label>
+            <select clrSelect formControlName="account">
+              <option *ngFor="let account of accounts" [value]="account.id">{{account.name}}</option>
+            </select>
+          </clr-select-container>
+        
+          <clr-select-container>
+            <label>Select a category</label>
+            <select clrSelect formControlName="category">
+              <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+            </select>
+          </clr-select-container>
+
             <input matInput [matDatepicker]="myDatepicker" formControlName="date">
             <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker></mat-datepicker>
-        </mat-form-field>
-    
-        <button mat-button type="submit" [disabled]="!transactionForm.valid">
-            Add new
-        </button>
+
+            <h2>Tag your transaction</h2>
+            <input clrInput placeholder="Add your tags" (change)="tag = $event.target.value" [value]="tag" />
+            <button class="btn btn-primary" (click)="addTag()" type="button">Add tag</button>
+            <div *ngIf="tags?.length > 0">
+              <span *ngFor="let tag of tags" href="..." class="label label-blue ">
+                {{tag}}
+                <span class="badge clickable" (click)="removeTag(tag)">X</span>
+              </span>
+            </div>
+            <div>
+              <button class="btn btn-primary" (click)="getLocation()" type="button">Add location</button>
+              <div id="mapid"></div>
+            </div>
+            
+
+
+        <button [disabled]="!transactionForm.valid" class="btn btn-primary" type="submit">Submit</button>
+        <!-- <button class="btn" type="button" (click)="resetForm()">Reset</button> -->
     </form>
 </ng-container>

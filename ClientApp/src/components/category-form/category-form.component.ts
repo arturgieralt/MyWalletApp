@@ -2,7 +2,7 @@ import { Component, ViewChild } from "@angular/core";
 import { CategoryService } from "src/services/category.services";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import AddCategoryRequest from "src/types/AddCategoryRequest";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { ToastrService } from 'ngx-toastr';
 import ApiResponse from "src/types/ApiResponse";
 
 @Component({
@@ -20,7 +20,7 @@ export class CategoryFormComponent {
 
     constructor(
         private categoryService: CategoryService, 
-        private notificationService: MatSnackBar)
+        private notificationService: ToastrService)
         {}
 
     onSubmit() {
@@ -35,7 +35,7 @@ export class CategoryFormComponent {
     private afterSubmitAction = (r: ApiResponse) => {
         this.categoryForm.reset();
         this.formRef.resetForm();
-        this.notificationService.open(r.message);
+        this.notificationService.info(r.message);
     }
 
 }

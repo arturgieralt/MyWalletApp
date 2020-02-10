@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { ToastrService } from 'ngx-toastr';
 import ApiResponse from "src/types/ApiResponse";
 import { AddAccountRequest } from "src/types/AddAccountRequest";
 import { Currency } from "src/types/Currency";
@@ -26,7 +26,7 @@ export class AccountFormComponent implements OnInit {
     constructor(
         private accountService: AccountService, 
         private currencyService: CurrencyService, 
-        private notificationService: MatSnackBar
+        private notificationService: ToastrService
         ){}
 
     ngOnInit() {
@@ -37,7 +37,7 @@ export class AccountFormComponent implements OnInit {
 
     onSubmit() {
         if(this.accountForm.valid) {
-            const request = new AddAccountRequest(this.accountForm.value.name, this.accountForm.value.currency)
+            const request = new AddAccountRequest(this.accountForm.value.name, Number(this.accountForm.value.currency))
             this.accountService
                 .add(request)
                 .subscribe(this.afterSubmitAction);
@@ -47,7 +47,7 @@ export class AccountFormComponent implements OnInit {
     private afterSubmitAction = (r: ApiResponse) => {
         this.accountForm.reset();
         this.formRef.resetForm();
-        this.notificationService.open(r.message);
+        this.notificationService.info(r.message);
     }
 
 }

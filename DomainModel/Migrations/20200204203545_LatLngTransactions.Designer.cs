@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWalletApp.DomainModel;
 
 namespace MyWalletApp.DomainModel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200204203545_LatLngTransactions")]
+    partial class LatLngTransactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -384,38 +386,6 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.ToTable("Currency");
                 });
 
-            modelBuilder.Entity("MyWalletApp.DomainModel.Models.Tag", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("LastModifiedById")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("LastModifiedOn")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("LastModifiedById");
-
-                    b.ToTable("Tags");
-                });
-
             modelBuilder.Entity("MyWalletApp.DomainModel.Models.Transaction", b =>
                 {
                     b.Property<long>("Id")
@@ -478,21 +448,6 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.HasIndex("LastModifiedById");
 
                     b.ToTable("Transaction");
-                });
-
-            modelBuilder.Entity("MyWalletApp.DomainModel.Models.TransactionTag", b =>
-                {
-                    b.Property<long>("TransactionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TagId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("TransactionId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("TransactionTag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -582,21 +537,6 @@ namespace MyWalletApp.DomainModel.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MyWalletApp.DomainModel.Models.Tag", b =>
-                {
-                    b.HasOne("MyWalletApp.DomainModel.Models.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyWalletApp.DomainModel.Models.ApplicationUser", "LastModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("LastModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MyWalletApp.DomainModel.Models.Transaction", b =>
                 {
                     b.HasOne("MyWalletApp.DomainModel.Models.Account", "Account")
@@ -625,21 +565,6 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.HasOne("MyWalletApp.DomainModel.Models.ApplicationUser", "LastModifiedBy")
                         .WithMany()
                         .HasForeignKey("LastModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MyWalletApp.DomainModel.Models.TransactionTag", b =>
-                {
-                    b.HasOne("MyWalletApp.DomainModel.Models.Tag", "Tag")
-                        .WithMany("TransactionTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyWalletApp.DomainModel.Models.Transaction", "Transaction")
-                        .WithMany("TransactionTags")
-                        .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,10 +1,6 @@
-<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" #formRef="ngForm">
-    <mat-form-field class="full-width">
-        <input matInput placeholder="Category name" formControlName="name">
-    </mat-form-field>
-
-    <button mat-button type="submit" [disabled]="!categoryForm.valid">
-        Add new
-    </button>
+<form clrForm [formGroup]="categoryForm" (ngSubmit)="onSubmit()" #formRef="ngForm">
+    <input clrInput placeholder="Category name" formControlName="name" />
     
+    <button [disabled]="!categoryForm.valid" class="btn btn-primary" type="submit">Submit</button>
+    <!-- <button class="btn" type="button" (click)="resetForm()">Reset</button> -->
 </form>

@@ -6,9 +6,9 @@ using MyWalletApp.Services.Providers;
 
 namespace MyWalletApp.DomainModel.Repositories
 {
-    public class AccountRepository: BaseRepository<Account> , IAccountRepository
+    public class TagRepository: BaseRepository<Tag> , ITagRepository
     {
-        public AccountRepository(
+        public TagRepository(
             ApplicationDbContext dbContext, 
             IDateTimeProvider dateTimeProvider,
             IUserContextProvider userContextProvider): base(dbContext, dateTimeProvider, userContextProvider)
@@ -16,28 +16,27 @@ namespace MyWalletApp.DomainModel.Repositories
 
         }
 
-        public async override Task<Account> GetById(long accountId)
+        public async override Task<Tag> GetById(long tagId)
         {
             var userId = _userContextProvider.GetUser.GetId<string>();
             
             return await _dbContext
-                .Accounts
-                .Include(a => a.Transactions)
-                .SingleOrDefaultAsync(a => a.Id == accountId && a.CreatedBy.Id == userId)
+                .Tags
+                .SingleOrDefaultAsync(t => t.Id == tagId && t.CreatedBy.Id == userId)
                 .ConfigureAwait(false);
 
         }
 
-        public virtual async Task<bool> DoesExistForUser(long entityId)
+        public async Task<Tag> GetByName(string name)
         {
             var userId = _userContextProvider.GetUser.GetId<string>();
-
+            
             return await _dbContext
-                .Accounts
-                .AnyAsync(a => a.Id == entityId && a.CreatedById == userId)
+                .Tags
+                .SingleOrDefaultAsync(t => t.Name == name && t.CreatedBy.Id == userId)
                 .ConfigureAwait(false);
-        }
 
+        }
         
     }
 }
