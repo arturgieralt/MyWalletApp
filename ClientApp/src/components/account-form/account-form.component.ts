@@ -16,9 +16,9 @@ export class AccountFormComponent implements OnInit {
 
     @ViewChild('formRef', { static: false }) formRef;
 
-    private currencies: Currency[];
+    public currencies: Currency[];
 
-    private accountForm = new FormGroup({
+    public accountForm = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
         currency: new FormControl(null, [Validators.required, Validators.min(1)])
     })

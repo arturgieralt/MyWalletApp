@@ -7,7 +7,7 @@ import Category from "src/types/Category";
     templateUrl: './category-list.component.html'
 })
 export class CategoryListComponent implements OnInit {
-    private categories: Category[] = [];
+    public categories: Category[] = [];
 
     constructor(private categoryService: CategoryService) {}
 

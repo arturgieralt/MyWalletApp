@@ -10,7 +10,7 @@ import { switchMap } from "rxjs/operators";
     templateUrl: './transaction-list.component.html'
 })
 export class TransactionListComponent implements OnInit {
-    private transactions: Transaction[] = [];
+    public transactions: Transaction[] = [];
 
     constructor(
         private transactionService: TransactionService,

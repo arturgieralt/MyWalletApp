@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
     templateUrl: './account-summary-list.component.html'
 })
 export class AccountSummaryListComponent implements OnInit {
-    private accounts: AccountSummary[] = [];
+    public accounts: AccountSummary[] = [];
 
     constructor(private accountService: AccountService, private router: Router) {}
 

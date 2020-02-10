@@ -22,15 +22,15 @@ export class TransactionFormComponent implements OnInit {
 
     @ViewChild('formRef', { static: false }) formRef;
 
-    private accounts: AccountSummary[];
-    private categories: Category[];
-    private accountId: string;
-    private map: L.Map;
-    private coords: number[] = null;
-    private tag: string= '';
-    private tags: string[] = [];
+    public accounts: AccountSummary[];
+    public categories: Category[];
+    public accountId: string;
+    public map: L.Map;
+    public coords: number[] = null;
+    public tag: string= '';
+    public tags: string[] = [];
 
-    private transactionForm = new FormGroup({
+    public transactionForm = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
         category: new FormControl(null, [Validators.required, Validators.min(1)]),
         account: new FormControl(null, [Validators.required, Validators.min(1)]),
