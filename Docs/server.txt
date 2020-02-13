@@ -1,0 +1,24 @@
+Installing server (Ubuntu 18.04)
+
+1. RDP and GUI
+https://askubuntu.com/questions/1001154/how-to-add-xrdp-and-xfce4-o-ufw-rules
+https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-18-04/
+
+2. MYSQL
+https://support.rackspace.com/how-to/install-mysql-server-on-the-ubuntu-operating-system/
+
+3. .net and nginx
+https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-3.1
+
+4. certificate
+https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
+
+5. generate key
+https://kimsereyblog.blogspot.com/2018/07/self-signed-certificate-for-identity.html
+https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-3.1
+
+6. publish
+
+1. publish
+2. remove appsettings or change them on the server
+3. copy scp -r publish/ root@vps783818.ovh.net:Projects/

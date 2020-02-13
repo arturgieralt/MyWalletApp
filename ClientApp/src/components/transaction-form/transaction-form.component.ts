@@ -117,7 +117,11 @@ export class TransactionFormComponent implements OnInit {
             accessToken
         }).addTo(this.map);
 
-        const marker = L.marker(coords).addTo(this.map);
+        const customIcon = L.icon({
+            iconUrl: 'assets/icon.png',
+        });
+
+        const marker = L.marker(coords, {icon: customIcon}).addTo(this.map);
         this.map.on('click', this.onMapClick(marker));
         }
     }
