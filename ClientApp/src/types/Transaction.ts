@@ -7,7 +7,7 @@ export default interface Transaction {
     name: string;
     accountId: number;
     total: number;
-    date: Date;
+    date: string;
     transactionType: TransactionType;
     tags: string[];
     category: Category;
