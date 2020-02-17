@@ -92,7 +92,7 @@ export class TransactionsPerDayChart implements OnInit {
         .call(g => g.select(".domain").remove())
         
         const chart = () => {
-            const svg = d3.select("#dashboard").append("svg")
+            const svg = d3.select("#transactions-per-day").append("svg")
                 .attr("viewBox", [0, 0, width, height]);
           
             svg.append("g")
@@ -125,7 +125,7 @@ export class TransactionsPerDayChart implements OnInit {
         const typeChange = changes['type'];
         const shouldRedraw = typeChange.previousValue !== typeChange.currentValue && !(typeChange.firstChange);
         if(shouldRedraw) {
-            d3.select('#dashboard').select('svg').remove();
+            d3.select('#transactions-per-day').select('svg').remove();
             this.createDashboard();
         }
       }
