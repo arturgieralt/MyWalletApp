@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
 import * as d3 from 'd3'
 import Transaction from "src/types/Transaction";
 import TransactionType from "src/types/TransactionType";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 type TransactionGroupedByName = {
     name: string;
@@ -16,21 +15,19 @@ type TransactionData = {
 type TransactionRecord = TransactionGroupedByName & TransactionData
 
 @Component({
-    selector: 'account-dashboard',
-    templateUrl: './account-dashboard.component.html',
-    styleUrls: ['./account-dashboard.component.css']
+    selector: 'transactions-per-day-chart',
+    templateUrl: './transactions-per-day.component.html',
+    styleUrls: ['./transactions-per-day.component.css']
 })
-export class AccountDashboardComponent implements OnInit {
+export class TransactionsPerDayChart implements OnInit {
     @Input() transactions: Transaction[];
+    @Input() type: TransactionType;
     data: TransactionRecord[] = [];
-    public transactionForm = new FormGroup({
-        type: new FormControl(0, [Validators.required])
-    })
 
     prepareData = (data: Transaction[]): TransactionRecord[] => {
             
         const dashboardData: TransactionRecord[] = []
-        return data.filter(t => t.transactionType === Number(this.transactionForm.value.type)).reduce((acc, el) => {
+        return data.filter(t => t.transactionType === Number(this.type)).reduce((acc, el) => {
             const date = el.date.split('T')[0];
             const doesExist = acc.some(t => t.name === date);
             let categoryId = 0; // think of symbol key
@@ -68,14 +65,6 @@ export class AccountDashboardComponent implements OnInit {
 
         }, dashboardData);
     } 
-
-    onChanges(): void {
-        this.transactionForm.valueChanges.subscribe(val => {
-            this.data = (this.prepareData(this.transactions));
-            d3.select('#dashboard').select('svg').remove();
-            this.createDashboard();
-        });
-    }
 
     createDashboard() {
         this.data = (this.prepareData(this.transactions));
@@ -129,6 +118,15 @@ export class AccountDashboardComponent implements OnInit {
 
     ngOnInit() {
         this.createDashboard();
-        this.onChanges();
-     }
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+
+        const typeChange = changes['type'];
+        const shouldRedraw = typeChange.previousValue !== typeChange.currentValue && !(typeChange.firstChange);
+        if(shouldRedraw) {
+            d3.select('#dashboard').select('svg').remove();
+            this.createDashboard();
+        }
+      }
 }

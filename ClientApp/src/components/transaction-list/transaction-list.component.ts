@@ -3,6 +3,7 @@ import Transaction from "src/types/Transaction";
 import { TransactionService } from "src/services/transaction.service";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
     selector: 'transaction-list',
@@ -11,6 +12,9 @@ import { switchMap } from "rxjs/operators";
 })
 export class TransactionListComponent implements OnInit {
     public transactions: Transaction[] = [];
+    public transactionForm = new FormGroup({
+        type: new FormControl(0, [Validators.required])
+    })
 
     constructor(
         private transactionService: TransactionService,

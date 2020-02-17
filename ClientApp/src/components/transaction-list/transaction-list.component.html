@@ -3,9 +3,22 @@
   Add
 </button>
 
+<form 
+    clrForm 
+    [formGroup]="transactionForm">
+    <clr-radio-wrapper>
+        <input type="radio" clrRadio value="0" [checked]="transactionForm.value.type === 0" formControlName="type" />
+        <label>Expense</label>
+      </clr-radio-wrapper>
+      <clr-radio-wrapper>
+        <input type="radio" clrRadio value="1" [checked]="transactionForm.value.type === 1" formControlName="type"/>
+        <label>Income</label>
+    </clr-radio-wrapper>
+</form>
+
 
 <ng-container *ngIf="transactions?.length > 0">
-  <account-dashboard [transactions]="transactions"></account-dashboard>
+  <transactions-per-day-chart [transactions]="transactions" [type]="transactionForm.value.type"></transactions-per-day-chart>
   <clr-datagrid>
     <clr-dg-column>Name</clr-dg-column>
     <clr-dg-column>Total</clr-dg-column>
