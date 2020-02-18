@@ -25,6 +25,7 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
 import { TransactionFormComponent } from './transaction-form/transaction-form.component';
 import { TransactionsPerDayChart } from './charts/transactions-per-day/transactions-per-day.component';
 import { TransactionsPerCategoryChart } from './charts/transactions-per-category/transactions-per-category.component';
+import { AccountBalancePerDayChart } from './charts/account-balance-per-day/account-balance-per-day.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { TransactionsPerCategoryChart } from './charts/transactions-per-category
     AccountFormComponent,
     TransactionsPerDayChart,
     TransactionsPerCategoryChart,
+    AccountBalancePerDayChart,
     TransactionListComponent,
     TransactionFormComponent
   ],
