@@ -30,7 +30,7 @@ namespace MyWalletApp.DomainModel.Models
 
         [Required]
         public long CurrencyId { get; set; }
-        public Category Currency {get; set; }   
+        public Currency Currency {get; set; }   
 
         public ICollection<TransactionTag> TransactionTags {get;set;}
 

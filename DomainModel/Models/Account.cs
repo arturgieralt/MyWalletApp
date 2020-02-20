@@ -16,6 +16,7 @@ namespace MyWalletApp.DomainModel.Models
 
         public ICollection<Transaction> Transactions {get; set;}
 
+        public ICollection<AccountUser> AccountUsers { get; set; }
         public Account(string name, long currencyId) {
             Name = name;
             CurrencyId = currencyId;

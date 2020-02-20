@@ -42,7 +42,7 @@ namespace MyWalletApp.WebApi.Commands.AddTransaction
                 return new CommandResult()
                     {
                         Status = CommandResultStatus.Error, 
-                        Message = $"Account with id {request.AccountId} does not exist"
+                        Message = $"Account with id {request.AccountId} does not exist or you do not have access to it."
                     };
             
             var transactionType = EnumMapper.Map<TransactionTypeApiModel, TransactionType>(request.TransactionType);

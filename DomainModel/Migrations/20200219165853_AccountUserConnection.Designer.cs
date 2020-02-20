@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWalletApp.DomainModel;
 
 namespace MyWalletApp.DomainModel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200219165853_AccountUserConnection")]
+    partial class AccountUserConnection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,6 +271,41 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.ToTable("Account");
                 });
 
+            modelBuilder.Entity("MyWalletApp.DomainModel.Models.AccountPermission", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("LastModifiedById")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("LastModifiedOn")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Read")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Write")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.ToTable("AccountPermission");
+                });
+
             modelBuilder.Entity("MyWalletApp.DomainModel.Models.AccountUser", b =>
                 {
                     b.Property<long>("AccountId")
@@ -277,22 +314,15 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<bool>("AccountDelete")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("AccountWrite")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<long>("AccountPermissionId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsAccessRevoked")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("TransactionRead")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("TransactionWrite")
-                        .HasColumnType("tinyint(1)");
-
                     b.HasKey("AccountId", "UserId");
+
+                    b.HasIndex("AccountPermissionId");
 
                     b.HasIndex("UserId");
 
@@ -305,14 +335,11 @@ namespace MyWalletApp.DomainModel.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("AccountDelete")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<long>("AccountId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("AccountWrite")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<long>("AccountPermissionId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("CreatedById")
                         .IsRequired()
@@ -321,21 +348,12 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("IsAccessRevoked")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("LastModifiedById")
                         .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("LastModifiedOn")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("TransactionRead")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("TransactionWrite")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -344,6 +362,8 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("AccountPermissionId");
 
                     b.HasIndex("CreatedById");
 
@@ -652,11 +672,32 @@ namespace MyWalletApp.DomainModel.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MyWalletApp.DomainModel.Models.AccountPermission", b =>
+                {
+                    b.HasOne("MyWalletApp.DomainModel.Models.ApplicationUser", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyWalletApp.DomainModel.Models.ApplicationUser", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MyWalletApp.DomainModel.Models.AccountUser", b =>
                 {
                     b.HasOne("MyWalletApp.DomainModel.Models.Account", "Account")
                         .WithMany("AccountUsers")
                         .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyWalletApp.DomainModel.Models.AccountPermission", "AccountPermission")
+                        .WithMany()
+                        .HasForeignKey("AccountPermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -672,6 +713,12 @@ namespace MyWalletApp.DomainModel.Migrations
                     b.HasOne("MyWalletApp.DomainModel.Models.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyWalletApp.DomainModel.Models.AccountPermission", "AccountPermission")
+                        .WithMany()
+                        .HasForeignKey("AccountPermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -743,7 +790,7 @@ namespace MyWalletApp.DomainModel.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MyWalletApp.DomainModel.Models.Currency", "Currency")
+                    b.HasOne("MyWalletApp.DomainModel.Models.Category", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)

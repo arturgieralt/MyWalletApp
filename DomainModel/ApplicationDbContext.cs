@@ -17,11 +17,14 @@ namespace MyWalletApp.DomainModel
         public DbSet<Account> Accounts { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Category> Categories { get; set; }
+
         public DbSet<Transaction> Transactions { get; set; }
 
         public DbSet<Currency> Currencies { get; set;}
 
         public DbSet<Tag> Tags { get; set;}
+
+        public DbSet<AccountUserInvite> AccountUserInvites { get; set;}
 
 
         public ApplicationDbContext(
@@ -66,6 +69,19 @@ namespace MyWalletApp.DomainModel
                 .HasOne(tt => tt.Tag)
                 .WithMany(tag => tag.TransactionTags)
                 .HasForeignKey(tt => tt.TagId);
+
+            builder.Entity<AccountUser>()
+                .HasKey(au => new { au.AccountId, au.UserId });
+
+            builder.Entity<AccountUser>()
+                .HasOne(au => au.Account)
+                .WithMany(account => account.AccountUsers)
+                .HasForeignKey(au => au.AccountId);
+
+            builder.Entity<AccountUser>()
+                .HasOne(au => au.User)
+                .WithMany(user => user.AccountUsers)
+                .HasForeignKey(au => au.UserId);
         }
 
         private ValueConverter CreateValueConventer<T> () {

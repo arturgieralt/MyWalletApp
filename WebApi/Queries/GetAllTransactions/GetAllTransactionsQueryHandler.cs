@@ -31,7 +31,7 @@ namespace MyWalletApp.WebApi.Queries.GetAllTransactions
                 .Transactions
                 .Include(t => t.TransactionTags)
                     .ThenInclude(tt => tt.Tag)
-                .Where(c => c.CreatedById == userId);
+                .Where(t => t.Account.AccountUsers.Any(au => au.UserId == userId && !au.IsAccessRevoked));
 
             if(request.AccountId != null) 
             {

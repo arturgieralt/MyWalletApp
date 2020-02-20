@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyWalletApp.DomainModel.Models;
@@ -23,7 +24,8 @@ namespace MyWalletApp.DomainModel.Repositories
             return await _dbContext
                 .Accounts
                 .Include(a => a.Transactions)
-                .SingleOrDefaultAsync(a => a.Id == accountId && a.CreatedBy.Id == userId)
+                .Where(a => a.AccountUsers.Any(au => au.UserId == userId && !au.IsAccessRevoked))
+                .SingleOrDefaultAsync(a => a.Id == accountId)
                 .ConfigureAwait(false);
 
         }
@@ -34,7 +36,8 @@ namespace MyWalletApp.DomainModel.Repositories
 
             return await _dbContext
                 .Accounts
-                .AnyAsync(a => a.Id == entityId && a.CreatedById == userId)
+                .Where(a => a.AccountUsers.Any(au => au.UserId == userId && !au.IsAccessRevoked))
+                .AnyAsync(a => a.Id == entityId)
                 .ConfigureAwait(false);
         }
 

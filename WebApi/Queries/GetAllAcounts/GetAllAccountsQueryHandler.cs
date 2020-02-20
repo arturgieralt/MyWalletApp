@@ -30,7 +30,7 @@ namespace MyWalletApp.WebApi.Queries.GetAllAcounts
             var accounts = await _applicationDbContext
                 .Accounts
                 .Include(a => a.Currency)
-                .Where(a => a.CreatedById == userId)
+                .Where(a => a.AccountUsers.Any(au => au.UserId == userId && !au.IsAccessRevoked))
                 .Select( a => new AccountSummary{
                     Id = a.Id,
                     Name = a.Name,
