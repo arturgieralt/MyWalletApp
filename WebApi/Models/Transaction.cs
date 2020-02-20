@@ -20,7 +20,7 @@ namespace MyWalletApp.WebApi.Models
 
         public Category Category {get; set;} 
 
-        public Category Currency {get; set;}   
+        public Currency Currency {get; set;}   
 
         public ICollection<string> Tags {get; set; }
 

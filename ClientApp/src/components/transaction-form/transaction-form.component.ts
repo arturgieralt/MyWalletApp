@@ -69,7 +69,9 @@ export class TransactionFormComponent implements OnInit {
     getAccountId() {
         this.routeService.paramMap
             .pipe(
-                switchMap((params: ParamMap) => params.get('id'))
+                switchMap((params: ParamMap) => { 
+                    return params.getAll('id')
+                })
             ).subscribe(id => {
                 this.accountId = id;
                 this.transactionForm.patchValue({
