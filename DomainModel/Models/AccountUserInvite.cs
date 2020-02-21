@@ -25,8 +25,5 @@ namespace MyWalletApp.DomainModel.Models
 
         [Required]
         public bool AccountWrite { get; set; }
-
-        [Required]
-        public bool IsAccessRevoked { get; set; }
     }
 }

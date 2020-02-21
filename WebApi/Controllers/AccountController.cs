@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyWalletApp.WebApi.Commands.CreateAccount;
 using MyWalletApp.WebApi.Commands.DeleteAccount;
+using MyWalletApp.WebApi.Commands.InviteUser;
 using MyWalletApp.WebApi.DTO.Requests;
 using MyWalletApp.WebApi.DTO.Results;
 using MyWalletApp.WebApi.Models;
@@ -56,6 +57,22 @@ namespace MyWalletApp.WebApi.Controllers
         {
             var result = await _mediator.Send(new DeleteAccountCommand(){
                 Id = accountId
+            });
+
+            return Ok(result);
+        }
+
+        [HttpPost] 
+        [Route("{accountId}/invite")]        
+        public async Task<IActionResult> Invite([FromBody] UserInviteRequest request, long accountId) 
+        {
+            var result = await _mediator.Send(new InviteUserCommand(){
+                Email = request.Email,
+                AccountId = accountId,
+                TransactionWrite = request.TransactionRead,
+                TransactionRead = request.TransactionRead,
+                AccountWrite = request.AccountWrite,
+                AccountDelete = request.AccountDelete
             });
 
             return Ok(result);

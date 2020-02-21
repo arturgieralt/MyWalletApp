@@ -18,6 +18,8 @@ namespace MyWalletApp.Services
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IAccountUserInviteRepository, AccountUserInviteRepository>();
+            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
         }
     }
 }

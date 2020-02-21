@@ -41,6 +41,15 @@ namespace MyWalletApp.DomainModel.Repositories
                 .ConfigureAwait(false);
         }
 
+        public virtual async Task<bool> DoesExistForUser(long entityId, string userId)
+        {
+            return await _dbContext
+                .Accounts
+                .Where(a => a.AccountUsers.Any(au => au.UserId == userId && !au.IsAccessRevoked))
+                .AnyAsync(a => a.Id == entityId)
+                .ConfigureAwait(false);
+        }
+
         
     }
 }
