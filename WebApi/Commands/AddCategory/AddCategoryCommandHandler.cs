@@ -19,11 +19,17 @@ namespace MyWalletApp.WebApi.Commands.AddCategory
 
         public async Task<CommandResult> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
+            var doesNameExist = await _categoryRepository.DoesNameExist(request.Name);
 
-            var account = new Category(){
+            if(doesNameExist) {
+                return new CommandResult(){ Status = CommandResultStatus.Error, Message="Name exists." };
+            }
+
+            var category = new Category(){
                 Name = request.Name
             };
-            var acountId =  await _categoryRepository.Save(account);
+
+            var categoryId =  await _categoryRepository.Save(category);
 
             return new CommandResult(){Status = CommandResultStatus.Success, Message = "Created"};
         }

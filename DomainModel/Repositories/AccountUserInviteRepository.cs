@@ -6,33 +6,32 @@ using MyWalletApp.Extensions;
 
 namespace MyWalletApp.DomainModel.Repositories
 {
-    public class CategoryRepository: BaseRepository<Category>, ICategoryRepository
+    public class AccountUserInviteRepository: BaseRepository<AccountUserInvite>, IAccountUserInviteRepository
     {
-        public CategoryRepository(
+        public AccountUserInviteRepository(
             ApplicationDbContext dbContext, 
             IDateTimeProvider dateTimeProvider,
             IUserContextProvider userContextProvider): base(dbContext, dateTimeProvider, userContextProvider)
         {
 
         }
-
-        public async override Task<Category> GetById(long categoryId)
+        
+        public async override Task<AccountUserInvite> GetById(long inviteId)
         {
             var userId = _userContextProvider.GetUser.GetId<string>();
             
             return await _dbContext
-                .Categories
-                .SingleOrDefaultAsync(c => c.Id == categoryId && c.CreatedBy.Id == userId)
+                .AccountUserInvites
+                .SingleOrDefaultAsync(i => i.Id == inviteId && i.CreatedBy.Id == userId)
                 .ConfigureAwait(false);
         }
 
-        public async Task<bool> DoesNameExist(string name)
+
+        public async Task<bool> IsUserAlreadyInvited(string invitedUserId, long accountId)
         {
-            var userId = _userContextProvider.GetUser.GetId<string>();
-            
             return await _dbContext
-                .Categories
-                .AnyAsync(c => c.Name == name && c.CreatedBy.Id == userId)
+                .AccountUserInvites
+                .AnyAsync(i => i.UserId == invitedUserId && i.AccountId == accountId)
                 .ConfigureAwait(false);
         }
         
