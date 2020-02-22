@@ -60,23 +60,6 @@ namespace MyWalletApp.WebApi.Controllers
             });
 
             return Ok(result);
-        }
-
-        [HttpPost] 
-        [Route("{accountId}/invite")]        
-        public async Task<IActionResult> Invite([FromBody] UserInviteRequest request, long accountId) 
-        {
-            var result = await _mediator.Send(new InviteUserCommand(){
-                Email = request.Email,
-                AccountId = accountId,
-                TransactionWrite = request.TransactionRead,
-                TransactionRead = request.TransactionRead,
-                AccountWrite = request.AccountWrite,
-                AccountDelete = request.AccountDelete
-            });
-
-            return Ok(result);
-        }
-        
+        }        
     }
 }

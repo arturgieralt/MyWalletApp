@@ -5,6 +5,9 @@ namespace MyWalletApp.WebApi.DTO.Requests
 {
     public class UserInviteRequest
     {
+        [Required]
+        [JsonProperty("accountId")]
+        public long AccountId {get; set;}
 
         [Required]
         [JsonProperty("email")]
