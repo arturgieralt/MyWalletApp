@@ -3,15 +3,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MyWalletApp.DomainModel.Models;
-using MyWalletApp.WebApi.Commands.CreateAccount;
-using MyWalletApp.WebApi.Commands.DeleteAccount;
+using MyWalletApp.WebApi.Commands.AcceptInvite;
 using MyWalletApp.WebApi.Commands.InviteUser;
 using MyWalletApp.WebApi.DTO.Requests;
 using MyWalletApp.WebApi.DTO.Results;
-using MyWalletApp.WebApi.Models;
 using MyWalletApp.WebApi.Queries.GetAllAccountInvites;
-using MyWalletApp.WebApi.Queries.GetAllAcounts;
 
 namespace MyWalletApp.WebApi.Controllers
 {
@@ -41,17 +37,16 @@ namespace MyWalletApp.WebApi.Controllers
 
         }
 
+        [HttpPut] 
+        [Route("{inviteId}/accept")]        
+        public async Task<IActionResult> Accept(long inviteId) 
+        {
+            var result = await _mediator.Send(new AcceptInviteCommand(){
+                Id = inviteId
+            });
 
-        // [HttpDelete] 
-        // [Route("{accountId}")]        
-        // public async Task<IActionResult> Delete(long accountId) 
-        // {
-        //     var result = await _mediator.Send(new DeleteAccountCommand(){
-        //         Id = accountId
-        //     });
-
-        //     return Ok(result);
-        // }
+            return Ok(result);
+        }
 
         [HttpPost] 
         public async Task<IActionResult> Invite([FromBody] UserInviteRequest request) 

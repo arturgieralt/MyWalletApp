@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using MyWalletApp.DomainModel.Models;
 using MyWalletApp.DomainModel.Repositories;
 using MyWalletApp.WebApi.Commands.Common;
+using MyWalletApp.Services.Providers;
+using MyWalletApp.Extensions;
+
 
 namespace MyWalletApp.WebApi.Commands.InviteUser
 {
@@ -13,50 +16,49 @@ namespace MyWalletApp.WebApi.Commands.InviteUser
         private readonly IAccountUserInviteRepository _accountUserInviteRepository;
         private readonly IAccountRepository _accountRepository;
         private readonly IApplicationUserRepository _applicationUserRepository;
+        private readonly IUserContextProvider _userContextProvider;
 
         public InviteUserCommandHandler(
             IAccountUserInviteRepository accountUserInviteRepository,
             IAccountRepository accountRepository,
-            IApplicationUserRepository applicationUserRepository){
+            IApplicationUserRepository applicationUserRepository,
+            IUserContextProvider userContextProvider
+            ){
 
             _accountUserInviteRepository = accountUserInviteRepository;
             _accountRepository = accountRepository;
             _applicationUserRepository = applicationUserRepository;
+            _userContextProvider = userContextProvider;
         }        
 
         public async Task<CommandResult> Handle (InviteUserCommand request, CancellationToken cancellationToken) {
 
             var user = await _applicationUserRepository.GetByEmail(request.Email);
             if(user == null) {
-                return new CommandResult(){
-                    Status = CommandResultStatus.Error,
-                    Message = "User with that email does not exist in the database."
-                };
+                return ErrorResult("User with that email does not exist in the database.");
             }
+
+            var httpContextUserId = _userContextProvider.GetUser.GetId<string>();
+           
+           if(user.Id == httpContextUserId) {
+               return ErrorResult("You cannot invite yourself.");
+           }
+           
             var account = await _accountRepository.GetById(request.AccountId);
             if(account == null) {
-                return new CommandResult(){
-                    Status = CommandResultStatus.Error,
-                    Message = "Wrong account Id."
-                };
+                return ErrorResult("Wrong account Id.");
             }
 
             var hasAlreadyAccess = await _accountRepository.DoesExistForUser(account.Id, user.Id);
 
             if(hasAlreadyAccess) {
-                return new CommandResult(){
-                    Status = CommandResultStatus.Error,
-                    Message = "User is already assigned to this account."
-                };
+                return ErrorResult("User is already assigned to this account.");
             }
 
             var isInvited = await _accountUserInviteRepository.IsUserAlreadyInvited(user.Id, account.Id);
 
             if(isInvited) {
-                return new CommandResult(){
-                    Status = CommandResultStatus.Error,
-                    Message = "User has been already invited."
-                };
+                return ErrorResult("User has been already invited.");
             }
 
             var accountUserInvite = new AccountUserInvite()
@@ -75,11 +77,17 @@ namespace MyWalletApp.WebApi.Commands.InviteUser
                 return new CommandResult(){Status = CommandResultStatus.Success, Message = "Created"};
             }
             catch (DbUpdateException e) {
-                return new CommandResult(){Status = CommandResultStatus.Error, Message = e.Message };
+                return ErrorResult(e.Message);
             }
 
             
         }
+
+        private CommandResult ErrorResult(string message) => new CommandResult()
+                    {
+                        Status = CommandResultStatus.Error, 
+                        Message = message
+                    };
 
     }
 }

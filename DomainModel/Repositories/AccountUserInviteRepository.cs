@@ -26,6 +26,16 @@ namespace MyWalletApp.DomainModel.Repositories
                 .ConfigureAwait(false);
         }
 
+        public async Task<AccountUserInvite> GetByIdForUser(long inviteId, string userId)
+        {
+            
+            return await _dbContext
+                .AccountUserInvites
+                .SingleOrDefaultAsync(i => i.Id == inviteId && i.UserId == userId)
+                .ConfigureAwait(false);
+        }
+
+
 
         public async Task<bool> IsUserAlreadyInvited(string invitedUserId, long accountId)
         {
