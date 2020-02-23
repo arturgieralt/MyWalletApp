@@ -1,0 +1,113 @@
+<h3>Received</h3>
+
+<ng-container *ngIf="accountInvitesReceived?.length > 0">
+  
+  <clr-datagrid>
+    <clr-dg-column>Account Name</clr-dg-column>
+    <clr-dg-column>Account Admin</clr-dg-column>
+    <clr-dg-column>Invited</clr-dg-column>
+    <clr-dg-column>TransactionRead</clr-dg-column>
+    <clr-dg-column>TransactionWrite</clr-dg-column>
+    <clr-dg-column>AccountWrite</clr-dg-column>
+    <clr-dg-column>AccountDelete</clr-dg-column>
+    <clr-dg-column>Actions</clr-dg-column>
+
+    <clr-dg-row *ngFor="let invite of accountInvitesReceived">
+        <clr-dg-cell>{{invite.accountName}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.invitedBy.name}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.invited.name}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.transactionRead}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.transactionWrite}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.accountWrite}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.accountDelete}}</clr-dg-cell>
+        <clr-dg-cell>
+          <button (click)="acceptAccountInvite(invite.id)" type="button" class="btn btn-icon btn-success">
+            <clr-icon shape="check"></clr-icon>
+          </button>
+          <button (click)="deleteAccountInvite(invite.id)" type="button" class="btn btn-icon btn-danger">
+          <clr-icon shape="delete"></clr-icon>
+        </button>
+      </clr-dg-cell>
+      </clr-dg-row>
+
+    <clr-dg-footer>{{accountInvitesReceived.length}} invites</clr-dg-footer>
+  </clr-datagrid>
+</ng-container>
+
+<h3>Invite</h3>
+
+<ng-container *ngIf="accounts?.length > 0">
+
+  <form 
+  clrForm 
+  clrLabelSize="12"
+  clrLayout="vertical"
+  [formGroup]="inviteForm" (ngSubmit)="onSubmit()" #formRef="ngForm">
+    <clr-input-container>
+
+      <label>User email</label>
+      <input clrInput placeholder="Email" formControlName="email" />
+    </clr-input-container>
+
+      <clr-select-container>
+          <label>Select an account</label>
+          <select clrSelect formControlName="account">
+            <option *ngFor="let account of accounts" [value]="account.id">{{account.name}}</option>
+          </select>
+      </clr-select-container>
+
+      <clr-checkbox-container>
+        <clr-checkbox-wrapper>
+          <input type="checkbox" clrCheckbox formControlName="transactionRead" />
+          <label>Allow to see all transactions</label>
+        </clr-checkbox-wrapper>
+        <clr-checkbox-wrapper>
+          <input type="checkbox" clrCheckbox formControlName="transactionWrite" />
+          <label>Allow to add and remove transactions</label>
+        </clr-checkbox-wrapper>
+        <clr-checkbox-wrapper>
+          <input type="checkbox" clrCheckbox formControlName="accountWrite" />
+          <label>Allow to edit account and add users</label>
+        </clr-checkbox-wrapper>
+        <clr-checkbox-wrapper>
+          <input type="checkbox" clrCheckbox formControlName="accountDelete" />
+          <label>Allow to delete the an account</label>
+        </clr-checkbox-wrapper>
+      </clr-checkbox-container>
+
+      <button [disabled]="!inviteForm.valid" class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</ng-container>
+
+<h3>Sent</h3>
+
+<ng-container *ngIf="accountInvitesSent?.length > 0">
+  
+  <clr-datagrid>
+    <clr-dg-column>Account Name</clr-dg-column>
+    <clr-dg-column>Account Admin</clr-dg-column>
+    <clr-dg-column>Invited</clr-dg-column>
+    <clr-dg-column>TransactionRead</clr-dg-column>
+    <clr-dg-column>TransactionWrite</clr-dg-column>
+    <clr-dg-column>AccountWrite</clr-dg-column>
+    <clr-dg-column>AccountDelete</clr-dg-column>
+    <clr-dg-column>Actions</clr-dg-column>
+
+    <clr-dg-row *ngFor="let invite of accountInvitesSent">
+        <clr-dg-cell>{{invite.accountName}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.invitedBy.name}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.invited.name}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.transactionRead}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.transactionWrite}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.accountWrite}}</clr-dg-cell>
+        <clr-dg-cell>{{invite.accountDelete}}</clr-dg-cell>
+        <clr-dg-cell>
+          <button (click)="deleteAccountInvite(invite.id)" type="button" class="btn btn-icon btn-danger">
+          <clr-icon shape="delete"></clr-icon>
+        </button>
+      </clr-dg-cell>
+      </clr-dg-row>
+
+    <clr-dg-footer>{{accountInvitesSent.length}} invites</clr-dg-footer>
+  </clr-datagrid>
+</ng-container>
