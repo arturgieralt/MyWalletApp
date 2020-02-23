@@ -1,3 +1,3 @@
-export interface ApiListResponse<T> {
+export type ApiListResponse<T> = {
     items: T[];
 }

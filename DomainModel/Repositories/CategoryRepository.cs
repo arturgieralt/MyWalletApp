@@ -25,6 +25,16 @@ namespace MyWalletApp.DomainModel.Repositories
                 .SingleOrDefaultAsync(c => c.Id == categoryId && c.CreatedBy.Id == userId)
                 .ConfigureAwait(false);
         }
+
+        public async Task<bool> DoesNameExist(string name)
+        {
+            var userId = _userContextProvider.GetUser.GetId<string>();
+            
+            return await _dbContext
+                .Categories
+                .AnyAsync(c => c.Name == name && c.CreatedBy.Id == userId)
+                .ConfigureAwait(false);
+        }
         
     }
 }

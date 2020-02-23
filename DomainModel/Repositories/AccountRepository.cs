@@ -30,10 +30,30 @@ namespace MyWalletApp.DomainModel.Repositories
 
         }
 
+        public async Task<Account> GetByIdWithoutUserContext(long accountId)
+        {
+            
+            return await _dbContext
+                .Accounts
+                .Include(a => a.AccountUsers)
+                .SingleOrDefaultAsync(a => a.Id == accountId)
+                .ConfigureAwait(false);
+
+        }
+
         public virtual async Task<bool> DoesExistForUser(long entityId)
         {
             var userId = _userContextProvider.GetUser.GetId<string>();
 
+            return await _dbContext
+                .Accounts
+                .Where(a => a.AccountUsers.Any(au => au.UserId == userId && !au.IsAccessRevoked))
+                .AnyAsync(a => a.Id == entityId)
+                .ConfigureAwait(false);
+        }
+
+        public virtual async Task<bool> DoesExistForUser(long entityId, string userId)
+        {
             return await _dbContext
                 .Accounts
                 .Where(a => a.AccountUsers.Any(au => au.UserId == userId && !au.IsAccessRevoked))

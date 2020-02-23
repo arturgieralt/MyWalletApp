@@ -26,6 +26,7 @@ import { TransactionFormComponent } from './transaction-form/transaction-form.co
 import { TransactionsPerDayChart } from './charts/transactions-per-day/transactions-per-day.component';
 import { TransactionsPerCategoryChart } from './charts/transactions-per-category/transactions-per-category.component';
 import { AccountBalancePerDayChart } from './charts/account-balance-per-day/account-balance-per-day.component';
+import { AccountInviteListComponent } from './account-invite-list/account-invite-list.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { AccountBalancePerDayChart } from './charts/account-balance-per-day/acco
     HomeComponent,
     CategoryListComponent,
     AccountSummaryListComponent,
+    AccountInviteListComponent,
     CategoryFormComponent,
     AccountFormComponent,
     TransactionsPerDayChart,
@@ -58,6 +60,7 @@ import { AccountBalancePerDayChart } from './charts/account-balance-per-day/acco
       { path: 'categories', component: CategoryListComponent, pathMatch: 'full' },
       { path: 'categories/add', component: CategoryFormComponent, pathMatch: 'full' },
       { path: 'accounts', component: AccountSummaryListComponent, pathMatch: 'full' },
+      { path: 'accounts/invites', component: AccountInviteListComponent, pathMatch: 'full' },
       { path: 'accounts/add', component: AccountFormComponent, pathMatch: 'full' },
       { path: 'accounts/:id/transactions', component: TransactionListComponent, pathMatch: 'full' },
       { path: 'transactions', component: TransactionListComponent, pathMatch: 'full' },

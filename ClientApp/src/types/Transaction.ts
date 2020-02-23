@@ -2,7 +2,7 @@ import Category from "./Category";
 import { Currency } from "./Currency";
 import TransactionType from "./TransactionType";
 
-export default interface Transaction {
+type Transaction = {
     id: number;
     name: string;
     accountId: number;
@@ -15,3 +15,5 @@ export default interface Transaction {
     latitude?: number;
     longitude?: number;
 }
+
+export default Transaction

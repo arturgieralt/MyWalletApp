@@ -1,6 +1,6 @@
 import { Currency } from "./Currency";
 
-export interface AccountSummary {
+export type AccountSummary = {
     id: number;
     name: string;
     balance: number;
