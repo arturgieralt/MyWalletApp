@@ -8,6 +8,7 @@ namespace MyWalletApp.DomainModel.Repositories
          Task<bool> IsUserAlreadyInvited(string invitedUserId, long accountId);
          Task<AccountUserInvite> GetById(long inviteId);
          Task<AccountUserInvite> GetByIdForUser(long inviteId, string userId);
+         Task<AccountUserInvite> GetByIdForUserOrCreator(long inviteId, string userId);
          Task<long> Save(AccountUserInvite invite);
          Task Delete(AccountUserInvite invite);
     }

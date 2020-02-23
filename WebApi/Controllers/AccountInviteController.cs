@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyWalletApp.WebApi.Commands.AcceptInvite;
+using MyWalletApp.WebApi.Commands.DeleteInvite;
 using MyWalletApp.WebApi.Commands.InviteUser;
 using MyWalletApp.WebApi.DTO.Requests;
 using MyWalletApp.WebApi.DTO.Results;
@@ -37,6 +38,21 @@ namespace MyWalletApp.WebApi.Controllers
 
         }
 
+        [HttpPost] 
+        public async Task<IActionResult> Invite([FromBody] UserInviteRequest request) 
+        {
+            var result = await _mediator.Send(new InviteUserCommand(){
+                Email = request.Email,
+                AccountId = request.AccountId,
+                TransactionWrite = request.TransactionRead,
+                TransactionRead = request.TransactionRead,
+                AccountWrite = request.AccountWrite,
+                AccountDelete = request.AccountDelete
+            });
+
+            return Ok(result);
+        }
+
         [HttpPut] 
         [Route("{inviteId}/accept")]        
         public async Task<IActionResult> Accept(long inviteId) 
@@ -48,16 +64,12 @@ namespace MyWalletApp.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost] 
-        public async Task<IActionResult> Invite([FromBody] UserInviteRequest request) 
+        [HttpDelete] 
+        [Route("{inviteId}")]        
+        public async Task<IActionResult> Delete(long inviteId) 
         {
-            var result = await _mediator.Send(new InviteUserCommand(){
-                Email = request.Email,
-                AccountId = request.AccountId,
-                TransactionWrite = request.TransactionRead,
-                TransactionRead = request.TransactionRead,
-                AccountWrite = request.AccountWrite,
-                AccountDelete = request.AccountDelete
+            var result = await _mediator.Send(new DeleteInviteCommand(){
+                Id = inviteId
             });
 
             return Ok(result);

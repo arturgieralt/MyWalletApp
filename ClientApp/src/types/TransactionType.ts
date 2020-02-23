@@ -5,7 +5,7 @@ enum TransactionType {
 
 export default TransactionType;
 
-export interface ITransactionType {
+export type ITransactionType = {
     id: number;
     name: string;
 }
