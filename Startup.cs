@@ -41,7 +41,10 @@ namespace MyWalletApp
             
             services.AddHttpContextAccessor();
 
-            services.AddRazorPages();
+            services.AddRazorPages();            
+            services.AddSignalR();
+
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
