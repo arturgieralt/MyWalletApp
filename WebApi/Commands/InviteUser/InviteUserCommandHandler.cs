@@ -80,7 +80,7 @@ namespace MyWalletApp.WebApi.Commands.InviteUser
 
             try {
                 var inviteId =  await _accountUserInviteRepository.Save(accountUserInvite);
-                var message = new InviteEvent() {
+                var appEvent = new InviteEvent() {
                     ConsumerId = user.Id,
                     CreatedById = httpContextUserId,
                     AccountId = account.Id,
@@ -88,7 +88,8 @@ namespace MyWalletApp.WebApi.Commands.InviteUser
                     Message = "You have been invited to new account",
                     TimeStamp = _dateTimeProvider.GetCurrentUtcTime
                 };
-                _eventEmitter.Publish(message);
+                
+                await _eventEmitter.EmitEvent(appEvent);
                 return new CommandResult(){Status = CommandResultStatus.Success, Message = "Created"};
             }
             catch (DbUpdateException e) {

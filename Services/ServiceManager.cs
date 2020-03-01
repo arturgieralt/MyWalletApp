@@ -13,7 +13,7 @@ namespace MyWalletApp.Services
             services.AddMediatR(typeof(ServiceManager).Assembly);
 
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            services.AddSingleton<IEventEmitter, EventEmitter>();
+            services.AddTransient<IEventEmitter, EventEmitter>();
             
             services.AddScoped<IUserContextProvider, UserContextProvider>();
             services.AddScoped<IAccountRepository, AccountRepository>();

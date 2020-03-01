@@ -1,20 +1,18 @@
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using MyWalletApp.Extensions;
 using MyWalletApp.RealTime.Events;
+using MyWalletApp.Services.Providers;
 
 namespace MyWalletApp.RealTime
 {
-    public class EventHub: Hub
+    [Authorize]
+    public class EventHub: Hub<IEventHub>
     {
-        private string EventEmitted = "EVENT_EMITTED";
-        private IEventEmitter _eventEmitter;
 
-        public EventHub(IEventEmitter eventEmitter) {
-            _eventEmitter = eventEmitter;
-            _eventEmitter.Subscribe(EventHandler);
+        public EventHub() {
         }
 
-        public  void EventHandler (object sender, BaseEvent appEvent) {
-            Clients.All.SendAsync(EventEmitted, appEvent.ConsumerId, appEvent);
-        }
     }
 }

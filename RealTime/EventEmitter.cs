@@ -1,22 +1,19 @@
-using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using MyWalletApp.RealTime.Events;
 
 namespace MyWalletApp.RealTime
 {
     public class EventEmitter: IEventEmitter
     {
-        private event EventHandler<BaseEvent> AppEvent;
+        private readonly IHubContext<EventHub, IEventHub> _eventHub;
 
-        public void Publish(BaseEvent appEvent) {
-            AppEvent.Invoke(this, appEvent);
+        public EventEmitter(IHubContext<EventHub, IEventHub> eventHub)
+        {
+            _eventHub = eventHub;
         }
-
-        public void Subscribe(EventHandler<BaseEvent> eventHandler) {
-            AppEvent += eventHandler;
-        }
-
-         public void UnSubscribe(EventHandler<BaseEvent> eventHandler) {
-            AppEvent -= eventHandler;
+        public async Task EmitEvent(BaseEvent appEvent) {
+            await _eventHub.Clients.User(appEvent.ConsumerId).EventEmitted(appEvent);
         }
     }
 }

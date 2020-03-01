@@ -3,8 +3,8 @@ using MyWalletApp.RealTime.Events;
 
 namespace MyWalletApp.RealTime
 {
-    public interface IEventEmitter
+    public interface IEventHub
     {
-         Task EmitEvent(BaseEvent appEvent);
+         Task EventEmitted (BaseEvent appEvent);
     }
 }
