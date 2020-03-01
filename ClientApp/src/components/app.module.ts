@@ -27,6 +27,7 @@ import { TransactionsPerDayChart } from './charts/transactions-per-day/transacti
 import { TransactionsPerCategoryChart } from './charts/transactions-per-category/transactions-per-category.component';
 import { AccountBalancePerDayChart } from './charts/account-balance-per-day/account-balance-per-day.component';
 import { AccountInviteListComponent } from './account-invite-list/account-invite-list.component';
+import { EventNotifierComponent } from './event-notifier/event-notifier.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { AccountInviteListComponent } from './account-invite-list/account-invite
     AccountFormComponent,
     TransactionsPerDayChart,
     TransactionsPerCategoryChart,
+    EventNotifierComponent,
     AccountBalancePerDayChart,
     TransactionListComponent,
     TransactionFormComponent
