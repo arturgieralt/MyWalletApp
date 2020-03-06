@@ -19,7 +19,6 @@ export class EventNotifierComponent {
   ngOnInit() {
     this.authorizeService
     .isAuthenticated()
-    .pipe(first())
     .subscribe(auth => {
       if(auth) {
         this.authorizeService.getAccessToken().pipe(first()).subscribe(t => {
