@@ -15,7 +15,6 @@ namespace MyWalletApp.ExternalData
     private int executionCount = 0;
     private readonly ILogger<ExchangeRateHostedService> _logger;
     private IServiceProvider _serviceProvider;
-    // private IMediator _mediator;
     private CurrencyRateClient _apiClient;
     private Timer _timer;
 
@@ -24,7 +23,6 @@ namespace MyWalletApp.ExternalData
         _logger = logger;
         _serviceProvider = serviceProvider;
         _apiClient = apiClient;
-     //   _mediator = mediator;
     }
 
     public Task StartAsync(CancellationToken stoppingToken)
@@ -40,12 +38,17 @@ namespace MyWalletApp.ExternalData
     private async Task DoWork(object state)
     {
         var count = Interlocked.Increment(ref executionCount);
-        var data = await _apiClient.GetRatesForTimePeriod(DateTime.Today.AddDays(-3), DateTime.Today, "EUR", new[] {"USD", "PLN"});
+        var data = await _apiClient.GetRatesForTimePeriod(
+            DateTime.Today.AddDays(-3), 
+            DateTime.Today, 
+            ExchangeRateConfig.BASE_CURRENCY_CODE,  
+            ExchangeRateConfig.Currencies);
+            
         using( var scope = _serviceProvider.CreateScope()) {
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             await mediator.Send(new ProcessExchangeRatesImportCommand()
             {
-                BaseCurrencyShortName = "EUR",
+                BaseCurrencyShortName = ExchangeRateConfig.BASE_CURRENCY_CODE,
                 Rates = data.Rates
             });
         }

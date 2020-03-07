@@ -15,8 +15,8 @@ namespace MyWalletApp.ExternalData
 
         public async Task<ExchangeRatesApiResponse> GetRatesForTimePeriod(DateTime startDate, DateTime endDate, string baseCurrency, string[] currencies) {
             var symbols = string.Join(",", currencies);
-            var start = startDate.ToString("yyyy-MM-dd");
-            var end = endDate.ToString("yyyy-MM-dd");
+            var start = startDate.ToString(ExchangeRateConfig.API_DATE_STRING_FORMAT);
+            var end = endDate.ToString(ExchangeRateConfig.API_DATE_STRING_FORMAT);
             var url = $"https://api.exchangeratesapi.io/history?start_at={start}&end_at={end}&base{baseCurrency}&symbols={symbols}";
 
             var contentString = await _httpClient.GetStringAsync(url);

@@ -8,6 +8,6 @@ namespace MyWalletApp.WebApi.Commands.ProcessExchangeRatesImport
     public class ProcessExchangeRatesImportCommand: IRequest<CommandResult>
     {
         public string BaseCurrencyShortName {get; set;}
-        public  Dictionary<string, ExchangeRate> Rates { get; set; }
+        public  Dictionary<string, CurrencyExchangeRatePair> Rates { get; set; }
     }
 }

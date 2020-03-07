@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MyWalletApp.ExternalData
 {
-    public class ExchangeRate : Dictionary<string, decimal>
+    public class CurrencyExchangeRatePair : Dictionary<string, decimal>
     {
     }
 
@@ -12,7 +12,7 @@ namespace MyWalletApp.ExternalData
     {
         [Required]
         [JsonProperty("rates")]
-        public Dictionary<string, ExchangeRate> Rates { get; set; }
+        public Dictionary<string, CurrencyExchangeRatePair> Rates { get; set; }
 
         [Required]
         [JsonProperty("end_at")]
