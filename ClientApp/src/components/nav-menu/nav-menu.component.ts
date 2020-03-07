@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import * as signalR from "@microsoft/signalr";
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Component({
@@ -9,7 +10,6 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 })
 export class NavMenuComponent {
   public isAuthenticated: Observable<boolean>;
-
   constructor(private authorizeService: AuthorizeService) { }
 
   ngOnInit() {

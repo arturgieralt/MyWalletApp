@@ -7,7 +7,8 @@ using MyWalletApp.DomainModel.Repositories;
 using MyWalletApp.WebApi.Commands.Common;
 using MyWalletApp.Services.Providers;
 using MyWalletApp.Extensions;
-
+using MyWalletApp.RealTime;
+using MyWalletApp.RealTime.Events;
 
 namespace MyWalletApp.WebApi.Commands.InviteUser
 {
@@ -17,18 +18,24 @@ namespace MyWalletApp.WebApi.Commands.InviteUser
         private readonly IAccountRepository _accountRepository;
         private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IUserContextProvider _userContextProvider;
+        private readonly IEventEmitter _eventEmitter;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public InviteUserCommandHandler(
             IAccountUserInviteRepository accountUserInviteRepository,
             IAccountRepository accountRepository,
             IApplicationUserRepository applicationUserRepository,
-            IUserContextProvider userContextProvider
+            IUserContextProvider userContextProvider,
+            IEventEmitter eventEmitter,
+            IDateTimeProvider dateTimeProvider
             ){
 
             _accountUserInviteRepository = accountUserInviteRepository;
             _accountRepository = accountRepository;
             _applicationUserRepository = applicationUserRepository;
             _userContextProvider = userContextProvider;
+            _eventEmitter = eventEmitter;
+            _dateTimeProvider = dateTimeProvider;
         }        
 
         public async Task<CommandResult> Handle (InviteUserCommand request, CancellationToken cancellationToken) {
@@ -73,7 +80,16 @@ namespace MyWalletApp.WebApi.Commands.InviteUser
 
             try {
                 var inviteId =  await _accountUserInviteRepository.Save(accountUserInvite);
-
+                var appEvent = new InviteEvent() {
+                    ConsumerId = user.Id,
+                    CreatedById = httpContextUserId,
+                    AccountId = account.Id,
+                    Type = EventType.AccountInvite,
+                    Message = "You have been invited to new account",
+                    TimeStamp = _dateTimeProvider.GetCurrentUtcTime
+                };
+                
+                await _eventEmitter.EmitEvent(appEvent);
                 return new CommandResult(){Status = CommandResultStatus.Success, Message = "Created"};
             }
             catch (DbUpdateException e) {

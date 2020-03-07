@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.HttpOverrides;
+using MyWalletApp.RealTime;
 
 namespace MyWalletApp
 {
@@ -41,7 +42,10 @@ namespace MyWalletApp
             
             services.AddHttpContextAccessor();
 
-            services.AddRazorPages();
+            services.AddRazorPages();            
+            services.AddSignalR();
+
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -118,6 +122,7 @@ namespace MyWalletApp
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<EventHub>("/hubs/eventFeed");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");

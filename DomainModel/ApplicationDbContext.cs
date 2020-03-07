@@ -25,6 +25,7 @@ namespace MyWalletApp.DomainModel
         public DbSet<Tag> Tags { get; set;}
 
         public DbSet<AccountUserInvite> AccountUserInvites { get; set;}
+        public DbSet<ExchangeRate> ExchangeRates {get; set; }
 
 
         public ApplicationDbContext(
