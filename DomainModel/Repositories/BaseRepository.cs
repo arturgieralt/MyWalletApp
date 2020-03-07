@@ -9,7 +9,6 @@ namespace MyWalletApp.DomainModel.Repositories
     {
         protected ApplicationDbContext _dbContext  {get; }
         protected IDateTimeProvider _dateTimeProvider {get; }
-
         protected IUserContextProvider _userContextProvider {get;}
 
         protected BaseRepository(

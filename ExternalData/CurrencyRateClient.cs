@@ -18,9 +18,10 @@ namespace MyWalletApp.ExternalData
             var start = startDate.ToString("yyyy-MM-dd");
             var end = endDate.ToString("yyyy-MM-dd");
             var url = $"https://api.exchangeratesapi.io/history?start_at={start}&end_at={end}&base{baseCurrency}&symbols={symbols}";
+
             var contentString = await _httpClient.GetStringAsync(url);
-            var data = JsonConvert.DeserializeObject<ExchangeRatesApiResponse>(contentString);
-            return data;
+
+            return JsonConvert.DeserializeObject<ExchangeRatesApiResponse>(contentString);
         }
     }
 }
