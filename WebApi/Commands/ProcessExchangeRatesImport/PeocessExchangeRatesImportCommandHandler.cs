@@ -26,13 +26,11 @@ namespace MyWalletApp.WebApi.Commands.ProcessExchangeRatesImport
         public async Task<CommandResult> Handle(ProcessExchangeRatesImportCommand request, CancellationToken cancellationToken)
         {
             var baseCurrency = await _exchangeRateRepository.GetCurrencyByCode(request.BaseCurrencyShortName);
-            var tasks = new List<Task>();
             foreach(var exchangeRateAtDay in request.Rates) 
             {
-               tasks.Add(Task.Run(() => ProcessSingleExchangeRate(exchangeRateAtDay, baseCurrency.Id)));
+              await ProcessSingleExchangeRate(exchangeRateAtDay, baseCurrency.Id);
             }
 
-            await Task.WhenAll(tasks);
             return new CommandResult()
             {
                 Status = CommandResultStatus.Success
@@ -44,7 +42,8 @@ namespace MyWalletApp.WebApi.Commands.ProcessExchangeRatesImport
                 DateTime date;
                 if(ParseDateString(exchangeRateAtDay.Key, out date)) 
                 {
-                    var currencyExchangeRate = exchangeRateAtDay.Value.FirstOrDefault();
+                    foreach(var currencyExchangeRate in exchangeRateAtDay.Value)
+                    {
                     var currencyShortName = currencyExchangeRate.Key;
                     var rate = currencyExchangeRate.Value;
 
@@ -55,6 +54,8 @@ namespace MyWalletApp.WebApi.Commands.ProcessExchangeRatesImport
                         Date = date,
                         Rate = rate
                     });
+                    }
+                    
                 }  
         }
 
