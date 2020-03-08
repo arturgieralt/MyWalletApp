@@ -40,7 +40,13 @@ namespace MyWalletApp.DomainModel
         {
            
             base.OnModelCreating(builder);
-            builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(255));
+
+
+            builder.Entity<ApplicationUser>(entity => 
+                entity.Property(m => m.Id).HasMaxLength(255)
+            );
+
+            builder.Entity<Currency>().HasData(CurrencyList.Currencies);
 
             var transactionTypeConventer = CreateValueConventer<TransactionType>();
 
